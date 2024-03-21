@@ -57,30 +57,6 @@ export default function AppNavigation() {
                         headerShown: true,
                     }}
                 />
-                {/* <Tab.Screen
-                    name="VeiculosScreen"
-                    component={VeiculosScreen}
-                    options={{
-                        tabBarLabel: "Veículos",
-                        tabBarIcon: "car",
-                    }}
-                />
-                <Tab.Screen
-                    name="UsuariosScreen"
-                    component={UsuariosScreen}
-                    options={{
-                        tabBarLabel: "Usuários",
-                        tabBarIcon: "account",
-                    }}
-                />
-                <Tab.Screen
-                    name="SobreScreen"
-                    component={SobreScreen}
-                    options={{
-                        tabBarLabel: "Sobre",
-                        tabBarIcon: "check",
-                    }}
-                /> */}
             </Stack.Navigator>
         </NavigationContainer>
     );
@@ -89,9 +65,22 @@ export default function AppNavigation() {
 
 const TabsNavigator = () => (
     <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Veiculos" component={VeiculosScreen} />
-        <Tab.Screen name="Usuarios" component={UsuariosScreen} />
-        <Tab.Screen name="Sobre" component={SobreScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} options={{
+          tabBarLabel: "Início",
+          tabBarIcon: "home",
+        }}/>
+        <Tab.Screen name="Veiculos" component={VeiculosScreen} options={{
+                        tabBarLabel: "Veículos",
+                        tabBarIcon: "car",
+                    }}/>
+        <Tab.Screen name="Usuarios" component={UsuariosScreen} options={{
+                        tabBarLabel: "Usuários",
+                        tabBarIcon: "account",
+                    }}/>
+        <Tab.Screen name="Sobre" component={SobreScreen} options={{
+                        tabBarLabel: "Sobre",
+                        tabBarIcon: "check",
+                    }}
+                 />
     </Tab.Navigator>
 )
