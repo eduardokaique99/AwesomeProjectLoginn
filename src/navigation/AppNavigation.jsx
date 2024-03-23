@@ -8,6 +8,8 @@ import SobreScreen from "../screens/SobreScreen";
 import VeiculosScreen from "../screens/VeiculosScreen";
 import UsuariosScreen from "../screens/UsuariosScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import TagScreen from "../screens/TagScreen";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -77,10 +79,13 @@ const TabsNavigator = () => (
                         tabBarLabel: "Usuários",
                         tabBarIcon: "account",
                     }}/>
+        <Tab.Screen name="TAG" component={TagScreen} options={{
+                        tabBarLabel: "TAG",
+                        tabBarIcon: "barcode",
+                    }}/>
         <Tab.Screen name="Sobre" component={SobreScreen} options={{
                         tabBarLabel: "Sobre",
                         tabBarIcon: "check",
-                    }}
-                 />
+                    }}/>
     </Tab.Navigator>
 )

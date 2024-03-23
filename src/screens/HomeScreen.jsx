@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
 import styles from "../config/styles";
-import { Button } from "react-native-paper";
 
 export default function HomeScreen() {
   return (
