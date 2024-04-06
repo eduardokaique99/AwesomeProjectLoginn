@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "../screens/HomeScreen";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RecuperarSenhaScreen from "../screens/RecuperarSenhaScreen";
 import RegistroScreen from "../screens/RegistroScreen";
 import SobreScreen from "../screens/SobreScreen";
 import VeiculosScreen from "../screens/VeiculosScreen";
 import UsuariosScreen from "../screens/UsuariosScreen";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import TagScreen from "../screens/TagScreen";
 
 
@@ -55,7 +55,7 @@ export default function AppNavigation() {
                     name="HomeScreen"
                     component={TabsNavigator}
                     options={{
-                        title: "",
+                        title: "Sair",
                         headerShown: true,
                     }}
                 />
@@ -70,22 +70,29 @@ const TabsNavigator = () => (
         <Tab.Screen name="Home" component={HomeScreen} options={{
           tabBarLabel: "Início",
           tabBarIcon: "home",
+          title: "Página Inicial",
         }}/>
         <Tab.Screen name="Veiculos" component={VeiculosScreen} options={{
                         tabBarLabel: "Veículos",
                         tabBarIcon: "car",
+                        title: "Veículos",
                     }}/>
         <Tab.Screen name="Usuarios" component={UsuariosScreen} options={{
                         tabBarLabel: "Usuários",
                         tabBarIcon: "account",
+                        title: "Usuários",
                     }}/>
         <Tab.Screen name="TAG" component={TagScreen} options={{
                         tabBarLabel: "TAG",
                         tabBarIcon: "barcode",
+                        title: "TAG",
                     }}/>
         <Tab.Screen name="Sobre" component={SobreScreen} options={{
                         tabBarLabel: "Sobre",
                         tabBarIcon: "check",
+                        title: "Sobre",
                     }}/>
     </Tab.Navigator>
-)
+);
+
+export { TabsNavigator };

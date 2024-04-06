@@ -24,14 +24,9 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-      <Image
-          source={require("../../assets/LogoEmpresa.png")}
-          style={{ width: 100, height: 60, position: "relative", left: 0, top: -200}}
-          //style={{ width: 100, height: 100, alignSelf: "flex"}}
-        />
         <Image
           source={require("../../assets/LogoApp.png")}
-          style={{ width: 240, height: 120, alignSelf: "center" }}
+          style={{ width: 260, height: 120, alignSelf: "center" }}
         />
         <Text variant="headlineLarge" style={styles.selfCenter}>
           Faça seu login
@@ -54,13 +49,13 @@ export default function LoginScreen({ navigation }) {
           value={senha}
           onChangeText={setSenha}
         />
-        <Button onPress={() => navigation.navigate("RecuperarSenhaScreen")}>
+        <Button textColor="black" onPress={() => navigation.navigate("RecuperarSenhaScreen")}>
           Recuperar senha
         </Button>
-        <Button onPress={() => navigation.navigate("RegistroScreen")}>
+        <Button textColor="black" onPress={() => navigation.navigate("RegistroScreen")}>
           Registre-se
         </Button>
-        <Button
+        <Button textColor="black"
           mode="outlined"
           // style="margin-top: 10px;" html
           style={{
