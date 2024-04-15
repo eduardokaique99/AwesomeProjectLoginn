@@ -59,6 +59,14 @@ export default function AppNavigation() {
                         headerShown: true,
                     }}
                 />
+                <Stack.Screen
+                    name="VeiculosNewScreen"
+                    component={VeiculosScreen}
+                    options={{
+                        title: "TAG",
+                        headerShown: false,
+                    }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

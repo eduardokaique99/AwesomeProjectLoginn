@@ -3,7 +3,9 @@ import styles from "../config/styles";
 import { styles2 } from "../config/styles";
 
 const MyComponent = () => {
+  //const navigation = useNavigation();
   const handleButtonPress = (buttonName) => {
+    navigation.navigate("VeiculosNewScreen");
     // Função para lidar com o pressionamento do botão
     console.log(`Botão ${buttonName} pressionado`);
   };
