@@ -46,6 +46,9 @@ export default function TagNewScreen({ navigation }) {
           label="Senha"
           mode="outlined"
           secureTextEntry
+          // Conversar com o Fausto Para fazer o tratamento 
+          // de criptografar e descriptografar a senha aqui no App
+
           value={senha}
           onChangeText={setSenha}
         />
