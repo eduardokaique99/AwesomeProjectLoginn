@@ -2,62 +2,40 @@ import { View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import styles from "../config/styles";
-import { Image } from "expo-image";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../config/firebase";
+
 
 export default function TagNewScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [tag, setTag] = useState("");
+  const [nome, setNome] = useState("");
 
   const fazerLogin = async () => {
-    // console.log(email, senha);
-    try {
-      const usuario = await signInWithEmailAndPassword(auth, email, senha);
-      console.log(usuario);
-      navigation.navigate("HomeScreen");
-    } catch (error) {
-      console.log(error);
-    }
+    console.log('Salvo');
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <Image
-          source={require("../../assets/LogoApp.png")}
-          style={{ width: 260, height: 120, alignSelf: "center" }}
-        />
         <Text variant="headlineLarge" style={styles.selfCenter}>
-          Faça seu login
+          Cadastro de TAG
         </Text>
         <Text variant="bodySmall" style={styles.selfCenter}>
-          Utilize suas credenciais
+          Insira as informações
         </Text>
 
         <TextInput
-          label="Email"
+          label="TAG"
           mode="outlined"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
+          keyboardType="tag"
+          value={tag}
+          onChangeText={setTag}
         />
         <TextInput
-          label="Senha"
+          label="Responsável"
           mode="outlined"
-          secureTextEntry
-          // Conversar com o Fausto Para fazer o tratamento 
-          // de criptografar e descriptografar a senha aqui no App
-
-          value={senha}
-          onChangeText={setSenha}
+          keyboardType="tag"
+          value={nome}
+          onChangeText={setNome}
         />
-        <Button textColor="black" onPress={() => navigation.navigate("RecuperarSenhaScreen")}>
-          Recuperar senha
-        </Button>
-        <Button textColor="black" onPress={() => navigation.navigate("RegistroScreen")}>
-          Registre-se
-        </Button>
         <Button textColor="black"
           mode="outlined"
           // style="margin-top: 10px;" html
@@ -69,7 +47,7 @@ export default function TagNewScreen({ navigation }) {
           }}
           onPress={fazerLogin}
         >
-          Entrar
+          Salvar
         </Button>
       </View>
     </View>

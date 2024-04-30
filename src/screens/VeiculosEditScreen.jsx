@@ -1,11 +1,12 @@
 import { View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
-export default function TagNewScreen({ navigation }) {
+export default function VeiculosEditScreen({ navigation, route }) {
+  const { item } = route.params;
   const [placa, setPlaca] = useState("");
   const [marca, setMarca] = useState("");
   const [ano, setAno] = useState("");
@@ -28,6 +29,17 @@ export default function TagNewScreen({ navigation }) {
       nome: nome,
     });
   };
+
+  useEffect(() => {
+    console.log(item);
+    console.log("estamos procurando a UID da coleção", item);
+
+    setPlaca(item.placa);
+    setMarca(item.marca);
+    setAno(item.ano);
+    setCor(item.cor);
+    setNome(item.nome);
+  }, []);
 
   return (
     <View style={styles.container}>
