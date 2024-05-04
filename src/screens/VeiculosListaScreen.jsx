@@ -40,6 +40,7 @@ const VeiculosListaScreen = () => {
           <Text style={{ textAlign: "justify", margin: 10 }}>
             Local destinado para o CRUD de veículos.
           </Text>
+
           <View style={styles.container}>
             <FlatList
               data={veiculos}
@@ -86,26 +87,12 @@ const VeiculosListaScreen = () => {
             />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleButtonPress("VeiculosNewScreen")}
-            >
+              onPress={() => handleButtonPress("VeiculosNewScreen")}>
               <Text style={styles.buttonText}>Adicionar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleButtonPress("VeiculosEditScreen")}
-            >
-              <Text style={styles.buttonText}>Editar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleButtonPress("VeiculosRemoveScreen")}
-            >
-              <Text style={styles.buttonText}>Remover</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleButtonPress("VeiculosReportScreen")}
-            >
+              onPress={() => handleButtonPress("VeiculosReportScreen")}>
               <Text style={styles.buttonText}>Relatório</Text>
             </TouchableOpacity>
           </View>

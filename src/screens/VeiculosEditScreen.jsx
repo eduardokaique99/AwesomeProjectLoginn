@@ -12,6 +12,7 @@ export default function VeiculosEditScreen({ navigation, route }) {
   const [ano, setAno] = useState("");
   const [cor, setCor] = useState("");
   const [nome, setNome] = useState("");
+  
   const cadastrarVeiculo = async () => {
     console.log("Salvo");
     // Cria uma nova referência de documento com um ID gerado automaticamente

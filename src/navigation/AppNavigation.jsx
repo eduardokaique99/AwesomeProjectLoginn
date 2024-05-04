@@ -8,13 +8,17 @@ import RegistroScreen from "../screens/RegistroScreen";
 import SobreScreen from "../screens/SobreScreen";
 // import VeiculosScreen from "../screens/VeiculosListaScreen";
 import VeiculosNewScreen from "../screens/VeiculosNewScreen";
-import UsuariosScreen from "../screens/UsuariosScreen";
+import UsuariosScreen from "../screens/UsuariosListaScreen";
 // import TagScreen from "../screens/TagScreen";
 import TagNewScreen from "../screens/TagNewScreen";
 import PerfilScreen from "../screens/PerfilScreen";
-import UsuariosScreenReserva from "../screens/UsuariosScreen copy";
+import UsuariosNewScreen from "../screens/UsuariosNewScreen";
 import VeiculosListaScreen from "../screens/VeiculosListaScreen";
 import VeiculosEditScreen from "../screens/VeiculosEditScreen";
+import TagListaScreen from "../screens/TagListaScreen";
+import TagEditScreen from "../screens/TagEditScreen";
+import UsuariosListaScreen from "../screens/UsuariosListaScreen";
+import UsuariosEditScreen from "../screens/UsuariosEditScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -96,7 +100,7 @@ const TabsNavigator = () => (
     />
     <Tab.Screen
       name="TAG"
-      component={TagNewScreen}
+      component={TagStack}
       options={{
         tabBarLabel: "TAG",
         tabBarIcon: "barcode",
@@ -129,17 +133,25 @@ function UsuariosStack() {
     <Stack.Navigator>
       <Stack.Screen
         name="UsuariosScreen"
-        component={UsuariosScreenReserva}
+        component={UsuariosListaScreen}
         options={{
           title: "Usuários",
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="UsuariosScreen2"
-        component={UsuariosScreen}
+        name="UsuariosNewScreen"
+        component={UsuariosNewScreen}
         options={{
           title: "Usuários",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UsuariosEditScreen"
+        component={UsuariosEditScreen}
+        options={{
+          title: "Veículos",
           headerShown: false,
         }}
       />
@@ -171,6 +183,37 @@ function VeiculosStack() {
         component={VeiculosEditScreen}
         options={{
           title: "Veículos",
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function TagStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="TagScreen"
+        component={TagListaScreen}
+        options={{
+          title: "Tag",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TagNewScreen"
+        component={TagNewScreen}
+        options={{
+          title: "Tag",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TagEditScreen"
+        component={TagEditScreen}
+        options={{
+          title: "Tag",
           headerShown: false,
         }}
       />

@@ -5,12 +5,13 @@ import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
-export default function TagNewScreen({ navigation }) {
+export default function VeiculosNewScreen({ navigation }) {
   const [placa, setPlaca] = useState("");
   const [marca, setMarca] = useState("");
   const [ano, setAno] = useState("");
   const [cor, setCor] = useState("");
   const [nome, setNome] = useState("");
+  
   const cadastrarVeiculo = async () => {
     console.log("Salvo");
     // Cria uma nova referência de documento com um ID gerado automaticamente
