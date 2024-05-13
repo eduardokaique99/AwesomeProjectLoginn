@@ -55,7 +55,7 @@ export default function AppNavigation() {
           name="HomeScreen"
           component={TabsNavigator}
           options={{
-            title: "Sair",
+            title: "Logout",
             headerShown: true,
           }}
         />

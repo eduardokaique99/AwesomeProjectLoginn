@@ -13,7 +13,7 @@ import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
 
 const UsuariosListaScreen = () => {
-  const [users, setUsers] = useState([]);
+  const [usuarios, setUsers] = useState([]);
   const navigation = useNavigation();
 
   const handleButtonPress = (screenName) => {

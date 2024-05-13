@@ -72,12 +72,7 @@ export default function LoginScreen({ navigation }) {
           >
             Recuperar senha
           </Button>
-          <Button
-            textColor="black"
-            onPress={() => navigation.navigate("RegistroScreen")}
-          >
-            Registre-se
-          </Button>
+          
           <Button
             textColor="black"
             mode="outlined"
