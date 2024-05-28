@@ -5,8 +5,15 @@ import styles from "../config/styles";
 
 
 export default function TagNewScreen({ navigation }) {
-  const [tag, setTag] = useState("");
+  const [idUsuario, setIdUsuario] = useState("");
+  const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [idResidencia, setIdResidencia] = useState("");
+  const [idCondominio, setIdCondominio] = useState("");
+  const [idTipo, setIdTipo] = useState("");
+  const [situacao, setSituacao] = useState("");
 
   const fazerLogin = async () => {
     console.log('Salvo');
@@ -23,18 +30,67 @@ export default function TagNewScreen({ navigation }) {
         </Text>
 
         <TextInput
-          label="TAG"
+          label="ID"
           mode="outlined"
-          keyboardType="tag"
-          value={tag}
-          onChangeText={setTag}
+          keyboardType="id"
+          value={idUsuario}
+          onChangeText={setIdUsuario}
         />
         <TextInput
-          label="Responsável"
+          label="Email"
+          mode="outlined"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          label="Nome"
           mode="outlined"
           keyboardType="tag"
           value={nome}
           onChangeText={setNome}
+        />
+        <TextInput
+          label="CPF"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={cpf}
+          onChangeText={setCPF}
+        />
+        <TextInput
+          label="Telefone"
+          mode="outlined"
+          keyboardType="phone-pad"
+          value={telefone}
+          onChangeText={setTelefone}
+        />
+        <TextInput
+          label="ID Residência"
+          mode="outlined"
+          keyboardType="id"
+          value={idResidencia}
+          onChangeText={setIdResidencia}
+        />
+        <TextInput
+          label="ID Condomínio"
+          mode="outlined"
+          keyboardType="id"
+          value={idCondominio}
+          onChangeText={setIdCondominio}
+        />
+        <TextInput
+          label="ID Tipo"
+          mode="outlined"
+          keyboardType="id"
+          value={idTipo}
+          onChangeText={setIdTipo}
+        />
+        <TextInput
+          label="Situação"
+          mode="outlined"
+          keyboardType="tag"
+          value={situacao}
+          onChangeText={setSituacao}
         />
         <Button textColor="black"
           mode="outlined"

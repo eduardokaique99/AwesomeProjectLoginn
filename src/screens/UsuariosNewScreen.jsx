@@ -6,8 +6,16 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export default function VeiculosNewScreen({ navigation }) {
+  const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [idResidencia, setIdResidencia] = useState("");
+  const [idCondominio, setIdCondominio] = useState("");
+  const [idTipo, setIdTipo] = useState("");
+  const [situacao, setSituacao] = useState("");
+
 
   const cadastrarUsuario = async () => {
     console.log("Salvo");
@@ -19,8 +27,15 @@ export default function VeiculosNewScreen({ navigation }) {
     );
     // e então setamos o documento
     await setDoc(docRef, {
+      idUsuario: idUsuario,
       email: email,
       nome: nome,
+      cpf: cpf,
+      telefone: telefone,
+      idResidencia: idResidencia,
+      idCondominio: idCondominio,
+      idTipo: idTipo,
+      situacao: situacao,
     });
   };
 
@@ -35,6 +50,13 @@ export default function VeiculosNewScreen({ navigation }) {
         </Text>
 
         <TextInput
+          label="ID"
+          mode="outlined"
+          keyboardType="id"
+          value={idUsuario}
+          onChangeText={setIdUsuario}
+        />
+        <TextInput
           label="Email"
           mode="outlined"
           keyboardType="email-address"
@@ -42,11 +64,53 @@ export default function VeiculosNewScreen({ navigation }) {
           onChangeText={setEmail}
         />
         <TextInput
-          label="Responsável"
+          label="Nome"
           mode="outlined"
           keyboardType="tag"
           value={nome}
           onChangeText={setNome}
+        />
+        <TextInput
+          label="CPF"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={cpf}
+          onChangeText={setCPF}
+        />
+        <TextInput
+          label="Telefone"
+          mode="outlined"
+          keyboardType="phone-pad"
+          value={telefone}
+          onChangeText={setTelefone}
+        />
+        <TextInput
+          label="ID Residência"
+          mode="outlined"
+          keyboardType="id"
+          value={idResidencia}
+          onChangeText={setIdResidencia}
+        />
+        <TextInput
+          label="ID Condomínio"
+          mode="outlined"
+          keyboardType="id"
+          value={idCondominio}
+          onChangeText={setIdCondominio}
+        />
+        <TextInput
+          label="ID Tipo"
+          mode="outlined"
+          keyboardType="id"
+          value={idTipo}
+          onChangeText={setIdTipo}
+        />
+        <TextInput
+          label="Situação"
+          mode="outlined"
+          keyboardType="tag"
+          value={situacao}
+          onChangeText={setSituacao}
         />
         <Button
           textColor="black"

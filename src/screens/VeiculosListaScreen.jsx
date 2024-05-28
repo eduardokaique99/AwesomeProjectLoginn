@@ -46,7 +46,7 @@ const VeiculosListaScreen = () => {
               data={veiculos}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
-                  <Card.Title title={`Veículo: ${item.nome}`} />
+                  <Card.Title title={`Id do veículo: ${item.idVeiculo}`} />
                   <Card.Content>
                     <List.Item
                       title={`Placa: ${item.placa}`}
@@ -61,8 +61,20 @@ const VeiculosListaScreen = () => {
                       left={(props) => <List.Icon {...props} icon="calendar" />}
                     />
                     <List.Item
+                      title={`Modelo: ${item.modelo}`}
+                      left={(props) => <List.Icon {...props} icon="car" />}
+                    />
+                    <List.Item
                       title={`Cor: ${item.cor}`}
                       left={(props) => <List.Icon {...props} icon="palette" />}
+                    />
+                    <List.Item
+                      title={`Condomínio: ${item.idCondominio}`}
+                      left={(props) => <List.Icon {...props} icon="home" />}
+                    />
+                    <List.Item
+                      title={`Situação: ${item.situacao}`}
+                      left={(props) => <List.Icon {...props} icon="check" />}
                     />
                   </Card.Content>
                   <Card.Actions>

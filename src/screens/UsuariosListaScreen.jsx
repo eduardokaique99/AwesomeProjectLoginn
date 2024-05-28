@@ -47,11 +47,39 @@ const UsuariosListaScreen = () => {
               data={usuarios}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
-                  <Card.Title title={`Usuário: ${item.nome}`} />
+                  <Card.Title title={`Id do usuário: ${item.idUsuario}`} />
                   <Card.Content>
                     <List.Item
                       title={`Email: ${item.email}`}
                       left={(props) => <List.Icon {...props} icon="email" />}
+                    />
+                    <List.Item
+                      title={`Nome: ${item.nome}`}
+                      left={(props) => <List.Icon {...props} icon="account" />}
+                    />
+                    <List.Item
+                      title={`CPF: ${item.cpf}`}
+                      left={(props) => <List.Icon {...props} icon="card-account-details" />}
+                    />
+                    <List.Item
+                      title={`Telefone: ${item.telefone}`}
+                      left={(props) => <List.Icon {...props} icon="phone" />}
+                    />
+                    <List.Item
+                      title={`Id da Residência: ${item.idResidencia}`}
+                      left={(props) => <List.Icon {...props} icon="home" />}
+                    />
+                    <List.Item
+                      title={`Id do Condomínio: ${item.idCondominio}`}
+                      left={(props) => <List.Icon {...props} icon="home" />}
+                    />
+                    <List.Item
+                      title={`Tipo de usuário: ${item.idTipo}`}
+                      left={(props) => <List.Icon {...props} icon="account" />}
+                    />
+                    <List.Item
+                      title={`Situação: ${item.situacao}`}
+                      left={(props) => <List.Icon {...props} icon="check" />}
                     />
                     {/* Não é recomendado exibir a senha */}
                   </Card.Content>

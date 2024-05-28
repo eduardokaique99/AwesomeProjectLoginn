@@ -42,16 +42,24 @@ const TagListaScreen = () => {
             Local destinado para o CRUD de TAG.
           </Text>
 
-          <View style={styles2.container}>
+          <View style={styles.container}>
             <FlatList
               data={tags}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
-                  <Card.Title title={`TAG: ${item.tag}`} />
+                  <Card.Title title={`Id do TAG: ${item.idTag}`} />
                   <Card.Content>
                     <List.Item
-                      title={`Responsável: ${item.nome}`}
-                      left={(props) => <List.Icon {...props} icon="account" />}
+                      title={`Número: ${item.numero}`}
+                      left={(props) => <List.Icon {...props} icon="tag" />}
+                    />
+                    <List.Item
+                      title={`Situação: ${item.situacao}`}
+                      left={(props) => <List.Icon {...props} icon="tag" />}
+                    />
+                    <List.Item
+                      title={`Id do Condomínio: ${item.idCondominio}`}
+                      left={(props) => <List.Icon {...props} icon="tag" />}
                     />
                   </Card.Content>
                   <Card.Actions>
@@ -75,7 +83,7 @@ const TagListaScreen = () => {
               keyExtractor={(item) => item.tag}
             />
             <TouchableOpacity 
-              style2={styles.button} onPress={() => handleButtonPress("TagNewScreen")}>
+              style={styles.button} onPress={() => handleButtonPress("TagNewScreen")}>
               <Text style={styles.buttonText}>Adicionar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => handleButtonPress("TagReportScreen")}>

@@ -6,11 +6,14 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export default function VeiculosNewScreen({ navigation }) {
+  const [idVeiculo, setIdVeiculo] = useState("");
   const [placa, setPlaca] = useState("");
   const [marca, setMarca] = useState("");
+  const [modelo, setModelo] = useState("");
   const [ano, setAno] = useState("");
   const [cor, setCor] = useState("");
-  const [nome, setNome] = useState("");
+  const [idCondominio, setIdCondominio] = useState("");
+  const [situacao, setSituacao] = useState("");
   
   const cadastrarVeiculo = async () => {
     console.log("Salvo");
@@ -22,11 +25,14 @@ export default function VeiculosNewScreen({ navigation }) {
     );
     // e então setamos o documento
     await setDoc(docRef, {
+      idVeiculo: idVeiculo,
       placa: placa,
       marca: marca,
+      modelo: modelo,
       ano: ano,
       cor: cor,
-      nome: nome,
+      idCondominio: idCondominio,
+      situacao: situacao,
     });
   };
 
@@ -41,6 +47,13 @@ export default function VeiculosNewScreen({ navigation }) {
         </Text>
 
         <TextInput
+          label="ID"
+          mode="outlined"
+          keyboardType="id"
+          value={idVeiculo}
+          onChangeText={setIdVeiculo}
+        />
+        <TextInput
           label="Placa"
           mode="outlined"
           keyboardType="tag"
@@ -53,6 +66,13 @@ export default function VeiculosNewScreen({ navigation }) {
           keyboardType="tag"
           value={marca}
           onChangeText={setMarca}
+        />
+        <TextInput
+          label="Modelo"
+          mode="outlined"
+          keyboardType="tag"
+          value={modelo}
+          onChangeText={setModelo}
         />
         <TextInput
           label="Ano"
@@ -69,11 +89,18 @@ export default function VeiculosNewScreen({ navigation }) {
           onChangeText={setCor}
         />
         <TextInput
-          label="Responsável"
+          label="ID Condomínio"
           mode="outlined"
           keyboardType="tag"
-          value={nome}
-          onChangeText={setNome}
+          value={idCondominio}
+          onChangeText={setIdCondominio}
+        />
+        <TextInput
+          label="Situação"
+          mode="outlined"
+          keyboardType="tag"
+          value={situacao}
+          onChangeText={setSituacao}
         />
         <Button
           textColor="black"

@@ -6,9 +6,14 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export default function UsuariosEditScreen({ navigation, route }) {
-  const { item } = route.params;
+  const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [idResidencia, setIdResidencia] = useState("");
+  const [idCondominio, setIdCondominio] = useState("");
+  const [idTipo, setIdTipo] = useState("");
+  const [situacao, setSituacao] = useState("");
   
   const cadastrarUsuario = async () => {
     console.log("Salvo");
@@ -20,8 +25,14 @@ export default function UsuariosEditScreen({ navigation, route }) {
     );
     // e então setamos o documento
     await setDoc(docRef, {
+      idUsuario: idUsuario,
       email: email,
       nome: nome,
+      telefone: telefone,
+      idResidencia: idResidencia,
+      idCondominio: idCondominio,
+      idTipo: idTipo,
+      situacao: situacao,
     });
   };
 
@@ -29,8 +40,14 @@ export default function UsuariosEditScreen({ navigation, route }) {
     console.log(item);
     console.log("estamos procurando a UID da coleção", item);
 
+    setIdUsuario(item.idUsuario);
     setEmail(item.email);
     setNome(item.nome);
+    setTelefone(item.telefone);
+    setIdResidencia(item.idResidencia);
+    setIdCondominio(item.idCondominio);
+    setIdTipo(item.idTipo);
+    setSituacao(item.situacao);
   }, []);
 
   return (
@@ -44,6 +61,13 @@ export default function UsuariosEditScreen({ navigation, route }) {
         </Text>
 
         <TextInput
+          label="ID"
+          mode="outlined"
+          keyboardType="id"
+          value={idUsuario}
+          onChangeText={setIdUsuario}
+        />
+        <TextInput
           label="Email"
           mode="outlined"
           keyboardType="email-address"
@@ -51,11 +75,46 @@ export default function UsuariosEditScreen({ navigation, route }) {
           onChangeText={setEmail}
         />
         <TextInput
-          label="Responsável"
+          label="Nome"
           mode="outlined"
           keyboardType="tag"
           value={nome}
           onChangeText={setNome}
+        />
+        <TextInput
+          label="Telefone"
+          mode="outlined"
+          keyboardType="phone-pad"
+          value={telefone}
+          onChangeText={setTelefone}
+        />
+        <TextInput
+          label="ID Residência"
+          mode="outlined"
+          keyboardType="id"
+          value={idResidencia}
+          onChangeText={setIdResidencia}
+        />
+        <TextInput
+          label="ID Condomínio"
+          mode="outlined"
+          keyboardType="id"
+          value={idCondominio}
+          onChangeText={setIdCondominio}
+        />
+        <TextInput
+          label="ID Tipo"
+          mode="outlined"
+          keyboardType="id"
+          value={idTipo}
+          onChangeText={setIdTipo}
+        />
+        <TextInput
+          label="Situação"
+          mode="outlined"
+          keyboardType="tag"
+          value={situacao}
+          onChangeText={setSituacao}
         />
         <Button
           textColor="black"

@@ -7,8 +7,10 @@ import { db } from "../config/firebase";
 
 export default function TagEditScreen({ navigation, route }) {
   const { item } = route.params;
-  const [tag, setTag] = useState("");
-  const [nome, setNome] = useState("");
+  const [idTag, setIdTag] = useState("");
+  const [numero, setNumero] = useState("");
+  const [situacao, setNSituacao] = useState("");
+  const [idCondominio, setIdCondominio] = useState("");
 
   const cadastrarTag = async () => {
     console.log("Salvo");
@@ -20,8 +22,10 @@ export default function TagEditScreen({ navigation, route }) {
     );
     // e então setamos o documento
     await setDoc(docRef, {
-      tag: tag,
-      nome: nome,
+      idTag: idTag,
+      numero: numero,
+      situacao: situacao,
+      idCondominio: idCondominio,
     });
   };
 
@@ -44,18 +48,32 @@ export default function TagEditScreen({ navigation, route }) {
         </Text>
 
         <TextInput
-          label="Tag"
+          label="ID"
           mode="outlined"
-          keyboardType="tag"
-          value={tag}
-          onChangeText={setTag}
+          keyboardType="id"
+          value={idTag}
+          onChangeText={setIdTag}
         />
         <TextInput
-          label="Responsável"
+          label="Número"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={numero}
+          onChangeText={setNumero}
+        />
+        <TextInput
+          label="Situação"
           mode="outlined"
           keyboardType="tag"
-          value={nome}
-          onChangeText={setNome}
+          value={situacao}
+          onChangeText={setNSituacao}
+        />
+        <TextInput
+          label="ID Condomínio"
+          mode="outlined"
+          keyboardType="id"
+          value={idCondominio}
+          onChangeText={setIdCondominio}
         />
         <Button
           textColor="black"
