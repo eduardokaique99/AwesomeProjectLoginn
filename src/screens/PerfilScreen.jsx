@@ -1,13 +1,16 @@
 import { View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../config/styles";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../config/firebase"; // Certifique-se de que 'auth' está sendo importado corretamente
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 
-
-export default function TagNewScreen({ navigation }) {
+export default function TagNewScreen({ navigation, route }) {
   const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [senha, setSenha] = useState("");
   const [cpf, setCPF] = useState("");
   const [telefone, setTelefone] = useState("");
   const [idResidencia, setIdResidencia] = useState("");
@@ -16,8 +19,76 @@ export default function TagNewScreen({ navigation }) {
   const [situacao, setSituacao] = useState("");
 
   const fazerLogin = async () => {
-    console.log('Salvo');
+    console.log("Salvo");
+
+    const docRef = doc(collection(db, "perfil"), idUsuario);
+
+    await setDoc(docRef, {
+      idUsuario,
+      email,
+      nome,
+      senha,
+      cpf,
+      telefone,
+      idResidencia,
+      idCondominio,
+      idTipo,
+      situacao,
+    });
+
+    console.log("Dados salvos com sucesso");
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Usuário logado", user);
+
+        const getUser = async () => {
+          const userUID = user.uid;
+          const docRef = doc(db, "usuarios", userUID);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            console.log("Documento encontrado:", docSnap.data());
+            const userData = docSnap.data();
+            setIdUsuario(userData.idUsuario);
+            setEmail(userData.email);
+            setNome(userData.nome);
+            setSenha(userData.senha);
+            setCPF(userData.cpf);
+            setTelefone(userData.telefone);
+            setIdResidencia(userData.idResidencia);
+            setIdCondominio(userData.idCondominio);
+            setIdTipo(userData.idTipo);
+            setSituacao(userData.situacao);
+          } else {
+            console.log("Nenhum documento encontrado!");
+          }
+        };
+        getUser();
+      } else {
+        navigation.navigate("LoginScreen");
+      }
+    });
+
+    if (route.params?.item) {
+      const item = route.params.item;
+      console.log("Preenchendo dados com:", item);
+
+      setIdUsuario(item.idUsuario);
+      setEmail(item.email);
+      setNome(item.nome);
+      setSenha(item.senha);
+      setCPF(item.cpf);
+      setTelefone(item.telefone);
+      setIdResidencia(item.idResidencia);
+      setIdCondominio(item.idCondominio);
+      setIdTipo(item.idTipo);
+      setSituacao(item.situacao);
+    }
+
+    return () => unsubscribe();
+  }, [route.params]);
 
   return (
     <View style={styles.container}>
@@ -32,7 +103,6 @@ export default function TagNewScreen({ navigation }) {
         <TextInput
           label="ID"
           mode="outlined"
-          keyboardType="id"
           value={idUsuario}
           onChangeText={setIdUsuario}
         />
@@ -46,9 +116,14 @@ export default function TagNewScreen({ navigation }) {
         <TextInput
           label="Nome"
           mode="outlined"
-          keyboardType="tag"
           value={nome}
           onChangeText={setNome}
+        />
+        <TextInput
+          label="Senha"
+          mode="outlined"
+          value={senha}
+          onChangeText={setSenha}
         />
         <TextInput
           label="CPF"
@@ -67,36 +142,31 @@ export default function TagNewScreen({ navigation }) {
         <TextInput
           label="ID Residência"
           mode="outlined"
-          keyboardType="id"
           value={idResidencia}
           onChangeText={setIdResidencia}
         />
         <TextInput
           label="ID Condomínio"
           mode="outlined"
-          keyboardType="id"
           value={idCondominio}
           onChangeText={setIdCondominio}
         />
         <TextInput
           label="ID Tipo"
           mode="outlined"
-          keyboardType="id"
           value={idTipo}
           onChangeText={setIdTipo}
         />
         <TextInput
           label="Situação"
           mode="outlined"
-          keyboardType="tag"
           value={situacao}
           onChangeText={setSituacao}
         />
-        <Button textColor="black"
+        <Button
+          textColor="black"
           mode="outlined"
-          // style="margin-top: 10px;" html
           style={{
-            // em react-native
             marginTop: 10,
             maxWidth: 260,
             alignSelf: "flex-end",

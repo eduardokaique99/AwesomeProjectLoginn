@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../config/styles";
 import { Image } from "expo-image";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../config/firebase";
+import { auth } from "../config/firebase";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -72,7 +72,7 @@ export default function LoginScreen({ navigation }) {
           >
             Recuperar senha
           </Button>
-          
+
           <Button
             textColor="black"
             mode="outlined"

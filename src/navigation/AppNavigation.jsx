@@ -56,7 +56,7 @@ export default function AppNavigation() {
           component={TabsNavigator}
           options={{
             title: "Logout",
-            headerShown: true,
+            headerShown: false,
           }}
         />
       </Stack.Navigator>

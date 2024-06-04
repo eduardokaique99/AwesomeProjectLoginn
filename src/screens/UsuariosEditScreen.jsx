@@ -9,6 +9,7 @@ export default function UsuariosEditScreen({ navigation, route }) {
   const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [senha, setSenha] = useState("");
   const [telefone, setTelefone] = useState("");
   const [idResidencia, setIdResidencia] = useState("");
   const [idCondominio, setIdCondominio] = useState("");
@@ -28,6 +29,7 @@ export default function UsuariosEditScreen({ navigation, route }) {
       idUsuario: idUsuario,
       email: email,
       nome: nome,
+      senha: senha,
       telefone: telefone,
       idResidencia: idResidencia,
       idCondominio: idCondominio,
@@ -43,6 +45,7 @@ export default function UsuariosEditScreen({ navigation, route }) {
     setIdUsuario(item.idUsuario);
     setEmail(item.email);
     setNome(item.nome);
+    setSenha(item.senha);
     setTelefone(item.telefone);
     setIdResidencia(item.idResidencia);
     setIdCondominio(item.idCondominio);
@@ -80,6 +83,13 @@ export default function UsuariosEditScreen({ navigation, route }) {
           keyboardType="tag"
           value={nome}
           onChangeText={setNome}
+        />
+        <TextInput 
+          label="Senha"
+          mode="outlined"
+          keyboardType="password"
+          value={senha}
+          onChangeText={setSenha}
         />
         <TextInput
           label="Telefone"

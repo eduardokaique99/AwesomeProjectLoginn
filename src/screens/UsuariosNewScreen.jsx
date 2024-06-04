@@ -9,13 +9,14 @@ export default function VeiculosNewScreen({ navigation }) {
   const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [senha, setSenha] = useState("");
   const [cpf, setCPF] = useState("");
   const [telefone, setTelefone] = useState("");
   const [idResidencia, setIdResidencia] = useState("");
   const [idCondominio, setIdCondominio] = useState("");
   const [idTipo, setIdTipo] = useState("");
   const [situacao, setSituacao] = useState("");
-
+//https://github.com/faustort/ADS-5f-MeuApp/blob/74dc424f21578b68fedc8157f36108123aa60cb8/src/screens/RegisterScreen.jsx
 
   const cadastrarUsuario = async () => {
     console.log("Salvo");
@@ -25,11 +26,15 @@ export default function VeiculosNewScreen({ navigation }) {
       // depois passamos a referência do banco de dados
       collection(db, "usuarios")
     );
+
+
+
     // e então setamos o documento
     await setDoc(docRef, {
       idUsuario: idUsuario,
       email: email,
       nome: nome,
+      senha: senha,
       cpf: cpf,
       telefone: telefone,
       idResidencia: idResidencia,
@@ -69,6 +74,13 @@ export default function VeiculosNewScreen({ navigation }) {
           keyboardType="tag"
           value={nome}
           onChangeText={setNome}
+        />
+        <TextInput
+          label="Senha"
+          mode="outlined"
+          keyboardType="password"
+          value={senha}
+          onChangeText={setSenha}
         />
         <TextInput
           label="CPF"
