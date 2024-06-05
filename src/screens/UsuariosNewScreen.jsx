@@ -1,11 +1,12 @@
 import { View } from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db, auth } from "../config/firebase";
 
-export default function VeiculosNewScreen({ navigation }) {
+export default function UsuariosNewScreen({ navigation }) {
   const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
@@ -16,7 +17,7 @@ export default function VeiculosNewScreen({ navigation }) {
   const [idCondominio, setIdCondominio] = useState("");
   const [idTipo, setIdTipo] = useState("");
   const [situacao, setSituacao] = useState("");
-//https://github.com/faustort/ADS-5f-MeuApp/blob/74dc424f21578b68fedc8157f36108123aa60cb8/src/screens/RegisterScreen.jsx
+  //https://github.com/faustort/ADS-5f-MeuApp/blob/74dc424f21578b68fedc8157f36108123aa60cb8/src/screens/RegisterScreen.jsx
 
   const cadastrarUsuario = async () => {
     console.log("Salvo");
@@ -26,8 +27,6 @@ export default function VeiculosNewScreen({ navigation }) {
       // depois passamos a referência do banco de dados
       collection(db, "usuarios")
     );
-
-
 
     // e então setamos o documento
     await setDoc(docRef, {
@@ -42,6 +41,12 @@ export default function VeiculosNewScreen({ navigation }) {
       idTipo: idTipo,
       situacao: situacao,
     });
+
+    createUserWithEmailAndPassword(auth, email, senha).then(
+      async (userCredential) => {
+        console.log(userCredential, "Usuário registrado com sucesso");
+        const usuarios = userCredential.user.email;
+      });
   };
 
   return (

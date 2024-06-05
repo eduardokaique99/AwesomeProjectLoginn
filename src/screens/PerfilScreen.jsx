@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import styles from "../config/styles";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../config/firebase"; // Certifique-se de que 'auth' está sendo importado corretamente
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, where, setDoc, query, getDocs } from "firebase/firestore";
 
-export default function TagNewScreen({ navigation, route }) {
+export default function PerfilScreen({ navigation, route }) {
   const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
@@ -21,7 +21,7 @@ export default function TagNewScreen({ navigation, route }) {
   const fazerLogin = async () => {
     console.log("Salvo");
 
-    const docRef = doc(collection(db, "perfil"), idUsuario);
+    const docRef = doc(collection(db, "usuarios"), idUsuario);
 
     await setDoc(docRef, {
       idUsuario,
@@ -41,26 +41,43 @@ export default function TagNewScreen({ navigation, route }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("id", idUsuario)
+
       if (user) {
         console.log("Usuário logado", user);
-
+   
         const getUser = async () => {
-          const userUID = user.uid;
-          const docRef = doc(db, "usuarios", userUID);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            console.log("Documento encontrado:", docSnap.data());
-            const userData = docSnap.data();
-            setIdUsuario(userData.idUsuario);
-            setEmail(userData.email);
-            setNome(userData.nome);
-            setSenha(userData.senha);
-            setCPF(userData.cpf);
-            setTelefone(userData.telefone);
-            setIdResidencia(userData.idResidencia);
-            setIdCondominio(userData.idCondominio);
-            setIdTipo(userData.idTipo);
-            setSituacao(userData.situacao);
+          const userEmail = user.email; // Obtém o e-mail do usuário autenticado
+          const usersRef = collection(db, "usuarios");
+          const querySnapshot = await getDocs(query(usersRef, where("email", "==", userEmail)));
+
+
+          if (!querySnapshot.empty) {
+            querySnapshot.docs.forEach((doc) => {
+              const userData = doc.data();
+              setIdUsuario(userData.idUsuario);
+              setEmail(userData.email);
+              setNome(userData.nome);
+              setSenha(userData.senha);
+              setCPF(userData.cpf);
+              setTelefone(userData.telefone);
+              setIdResidencia(userData.idResidencia);
+              setIdCondominio(userData.idCondominio);
+              setIdTipo(userData.idTipo);
+              setSituacao(userData.situacao);
+             });
+            // console.log("Documento encontrado:", querySnapshot.data());
+            // const userData = docSnap.data();
+            // setIdUsuario(userData.idUsuario);
+            // setEmail(userData.email);
+            // setNome(userData.nome);
+            // setSenha(userData.senha);
+            // setCPF(userData.cpf);
+            // setTelefone(userData.telefone);
+            // setIdResidencia(userData.idResidencia);
+            // setIdCondominio(userData.idCondominio);
+            // setIdTipo(userData.idTipo);
+            // setSituacao(userData.situacao);
           } else {
             console.log("Nenhum documento encontrado!");
           }
@@ -94,10 +111,7 @@ export default function TagNewScreen({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Text variant="headlineLarge" style={styles.selfCenter}>
-          Cadastro de TAG
-        </Text>
-        <Text variant="bodySmall" style={styles.selfCenter}>
-          Insira as informações
+          Perfil do Usuário
         </Text>
 
         <TextInput

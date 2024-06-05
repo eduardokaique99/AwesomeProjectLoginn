@@ -60,7 +60,6 @@ export default function RegistroScreen({ navigation }) {
           mode="outlined"
           // style="margin-top: 10px;" html
           style={{
-            // em react-native
             marginTop: 10,
             maxWidth: 260,
             alignSelf: "flex-end",
