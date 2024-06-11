@@ -1,24 +1,47 @@
-import { View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
-import { useEffect, useState } from "react";
+import { View } from "react-native"; 
+import { Button, Text, TextInput } from "react-native-paper"; 
+import { useEffect, useState } from "react"; 
 import styles from "../config/styles";
-import { Image } from "expo-image";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { Image } from "expo-image"; 
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth"; // importa o método de autenticação do Firebase
+import { auth } from "../config/firebase"; // importa a instância do Firebase
+import AsyncStorage from '@react-native-async-storage/async-storage'; // importa o AsyncStorage para armazenar o token de autenticação
 
-export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [loading, setLoading] = useState(true);
+export default function LoginScreen({ navigation }) { // passa a navegação como parâmetro
+  const [email, setEmail] = useState(""); // cria o estado do email
+  const [senha, setSenha] = useState(""); // cria o estado da senha
+  const [loading, setLoading] = useState(true); // cria o estado de carregamento
 
-  const fazerLogin = async () => {
+  /*const fazerLogin = async () => { // cria a função de fazer login
     // console.log(email, senha);
     try {
-      const usuario = await signInWithEmailAndPassword(auth, email, senha);
-      console.log(usuario);
-      navigation.navigate("HomeScreen");
-    } catch (error) {
-      console.log(error);
+      const usuario = await signInWithEmailAndPassword(auth, email, senha); // tenta fazer login com o email e senha
+      console.log(usuario); // exibe o usuário no console
+      navigation.navigate("HomeScreen"); // navega para a tela HomeScreen
+    } catch (error) { // captura o erro
+      console.log(error); // exibe o erro no console
+    }
+  };*/
+
+  const fazerLogin = async (email, senha) => { // cria a função de fazer login
+    try {
+      const response = await fetch('https://apicondsecurity.azurewebsites.net/api/User/loginApp', { // faz a requisição para a API
+        method: 'POST', // define o método como POST
+        headers: { // define o cabeçalho da requisição
+          'Content-Type': 'application/json', // define o tipo do conteúdo como JSON
+        },
+        body: JSON.stringify({email,senha}), // converte o email e senha para JSON
+      }); 
+      if(!response.ok){ // verifica se a resposta não está ok
+        throw new Error('Erro ao fazer login'); // lança um erro
+      }
+      const data = await response.json(); // converte a resposta para JSON
+      console.log(data); // exibe os dados no console
+      await AsyncStorage.setItem('token', data.token); // armazena o token de autenticação no AsyncStorage
+      console.log('Usuário logado com sucesso!'); // exibe a mensagem de sucesso no console
+      navigation.navigate('HomeScreen'); // navega para a tela HomeScreen
+    } catch (error) { // captura o erro
+      console.log('Erro ao fazer login',error); // exibe o erro no console
     }
   };
 
