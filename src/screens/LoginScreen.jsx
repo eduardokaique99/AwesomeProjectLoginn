@@ -23,14 +23,15 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
     }
   };*/
 
-  const fazerLogin = async (email, senha) => { // cria a função de fazer login
+  const fazerLogin = async () => { // cria a função de fazer login
     try {
       const response = await fetch('https://apicondsecurity.azurewebsites.net/api/User/loginApp', { // faz a requisição para a API
         method: 'POST', // define o método como POST
         headers: { // define o cabeçalho da requisição
           'Content-Type': 'application/json', // define o tipo do conteúdo como JSON
         },
-        body: JSON.stringify({email,senha}), // converte o email e senha para JSON
+        body: JSON.stringify({ email: email, senha: senha }), // converte o email e senha para JSON
+        mode: 'cors', // Adiciona o modo CORS
       }); 
       if(!response.ok){ // verifica se a resposta não está ok
         throw new Error('Erro ao fazer login'); // lança um erro
@@ -46,7 +47,7 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
   };
 
   // check if user already logged in
-  useEffect(() => {
+/*  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         navigation.navigate("HomeScreen");
@@ -55,6 +56,24 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
       }
     });
     return unsubscribe;
+  }, []); */
+
+  useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          navigation.navigate("HomeScreen");
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Erro ao verificar o token", error);
+        setLoading(false);
+      }
+    };
+
+    checkUserLoggedIn();
   }, []);
 
   return (
