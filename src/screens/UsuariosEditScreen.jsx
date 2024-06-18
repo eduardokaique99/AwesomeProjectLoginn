@@ -6,6 +6,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export default function UsuariosEditScreen({ navigation, route }) {
+  const { item } = route.params;
   const [idUsuario, setIdUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");

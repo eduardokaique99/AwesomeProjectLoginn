@@ -1,3 +1,4 @@
+import React, { useState, useCallback } from "react";
 import {
   ScrollView,
   Text,
@@ -6,8 +7,7 @@ import {
   FlatList,
 } from "react-native";
 import styles from "../config/styles";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
@@ -20,17 +20,22 @@ const VeiculosListaScreen = () => {
     navigation.navigate(screenName);
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      // Busca dados da coleção "veiculos"
-      const colRef = collection(db, "veiculos");
-      const docSnap = await getDocs(colRef);
-      const veiculosData = docSnap.docs.map((doc) => doc.data());
-      setVeiculos(veiculosData);
-      console.log(veiculosData);
-    }
-    fetchData();
-  }, []);
+  const fetchData = async () => {
+    const colRef = collection(db, "veiculos");
+    const docSnap = await getDocs(colRef);
+    const veiculosData = docSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setVeiculos(veiculosData);
+    console.log(veiculosData);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
@@ -43,6 +48,7 @@ const VeiculosListaScreen = () => {
 
           <View style={styles.container}>
             <FlatList
+              keyExtractor={(item) => item.id}
               data={veiculos}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
@@ -95,16 +101,17 @@ const VeiculosListaScreen = () => {
                   </Card.Actions>
                 </Card>
               )}
-              keyExtractor={(item) => item.placa}
             />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleButtonPress("VeiculosNewScreen")}>
+              onPress={() => handleButtonPress("VeiculosNewScreen")}
+            >
               <Text style={styles.buttonText}>Adicionar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => handleButtonPress("VeiculosReportScreen")}>
+              onPress={() => handleButtonPress("VeiculosReportScreen")}
+            >
               <Text style={styles.buttonText}>Relatório</Text>
             </TouchableOpacity>
           </View>

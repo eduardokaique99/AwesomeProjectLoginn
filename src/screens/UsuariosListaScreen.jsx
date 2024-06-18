@@ -6,8 +6,8 @@ import {
   FlatList,
 } from "react-native";
 import styles from "../config/styles";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useNavigation, useFocusEffect  } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
@@ -20,17 +20,36 @@ const UsuariosListaScreen = () => {
     navigation.navigate(screenName);
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      // Busca dados da coleção "usuarios"
-      const colRef = collection(db, "usuarios");
-      const docSnap = await getDocs(colRef);
-      const usersData = docSnap.docs.map((doc) => doc.data());
-      setUsers(usersData);
-      console.log(usersData);
-    }
-    fetchData();
-  }, []);
+
+  const fetchData = async () => {
+    const colRef = collection(db, "usuarios");
+    const docSnap = await getDocs(colRef);
+    const usuariosData = docSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setUsers(usuariosData);
+    console.log(usuariosData);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
+
+  //useEffect(() => {
+  //  async function fetchData() {
+  //    // Busca dados da coleção "usuarios"
+  //    const colRef = collection(db, "usuarios");
+  //    const docSnap = await getDocs(colRef);
+  //    const usersData = docSnap.docs.map((doc) => doc.data());
+  //    setUsers(usersData);
+  //    console.log(usersData);
+  //  }
+  //  fetchData();
+  //}, []);
 
 
   return (
@@ -44,6 +63,7 @@ const UsuariosListaScreen = () => {
           
           <View style={styles.container}>
             <FlatList
+              keyExtractor={(item) => item.id}
               data={usuarios}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
@@ -84,20 +104,23 @@ const UsuariosListaScreen = () => {
                     {/* Não é recomendado exibir a senha */}
                   </Card.Content>
                   <Card.Actions>
-                    <Button
-                      onPress={() => handleButtonPress("UsuariosEditScreen")}
+                  <Button
+                      onPress={() =>
+                        navigation.navigate("UsuariosEditScreen", { item })
+                      }
                     >
                       Editar
                     </Button>
                     <Button
-                      onPress={() => handleButtonPress("UsuariosEditScreen")}
+                      onPress={() =>
+                        navigation.navigate("UsuariosDeleteScreen", { item })
+                      }
                     >
-                      Excluir
+                      Deletar
                     </Button>
                   </Card.Actions>
                 </Card>
               )}
-              keyExtractor={(item) => item.email}
             />
             <TouchableOpacity
               style={styles.button}

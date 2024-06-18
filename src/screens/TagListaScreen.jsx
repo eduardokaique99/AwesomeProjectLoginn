@@ -1,4 +1,3 @@
-import { styles2 } from "../config/styles";
 import {
   ScrollView,
   Text,
@@ -7,8 +6,8 @@ import {
   FlatList,
 } from "react-native";
 import styles from "../config/styles";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useNavigation, useFocusEffect  } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
@@ -21,17 +20,36 @@ const TagListaScreen = () => {
     navigation.navigate(screenName);
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      // Busca dados da coleção "tags"
-      const colRef = collection(db, "tags");
-      const docSnap = await getDocs(colRef);
-      const tagsData = docSnap.docs.map((doc) => doc.data());
-      setTags(tagsData);
-      console.log(tagsData);
-    }
-    fetchData();
-  }, []);
+
+  const fetchData = async () => {
+    const colRef = collection(db, "tags");
+    const docSnap = await getDocs(colRef);
+    const tagData = docSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setTags(tagData);
+    console.log(tagData);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
+
+
+  //useEffect(() => {
+  //  async function fetchData() {
+  //    // Busca dados da coleção "tags"
+  //    const colRef = collection(db, "tags");
+  //    const docSnap = await getDocs(colRef);
+  //    const tagsData = docSnap.docs.map((doc) => doc.data());
+  //    setTags(tagsData);
+  //    console.log(tagsData);
+  //  }
+  //  fetchData();
+  //}, []);
 
   return (
     <View style={styles.container}>
@@ -44,6 +62,7 @@ const TagListaScreen = () => {
 
           <View style={styles.container}>
             <FlatList
+              keyExtractor={(item) => item.id}
               data={tags}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
@@ -63,16 +82,16 @@ const TagListaScreen = () => {
                     />
                   </Card.Content>
                   <Card.Actions>
-                    <Button
+                  <Button
                       onPress={() =>
-                        navigation.navigate("TagEdit", { item: item })
+                        navigation.navigate("TagEditScreen", { item })
                       }
                     >
                       Editar
                     </Button>
                     <Button
                       onPress={() =>
-                        navigation.navigate("TagDelete", { item: item })
+                        navigation.navigate("TagDeleteScreen", { item })
                       }
                     >
                       Deletar
@@ -80,7 +99,6 @@ const TagListaScreen = () => {
                   </Card.Actions>
                 </Card>
               )}
-              keyExtractor={(item) => item.tag}
             />
             <TouchableOpacity 
               style={styles.button} onPress={() => handleButtonPress("TagNewScreen")}>

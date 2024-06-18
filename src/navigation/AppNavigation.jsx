@@ -6,10 +6,7 @@ import LoginScreen from "../screens/LoginScreen";
 import RecuperarSenhaScreen from "../screens/RecuperarSenhaScreen";
 import RegistroScreen from "../screens/RegistroScreen";
 import SobreScreen from "../screens/SobreScreen";
-// import VeiculosScreen from "../screens/VeiculosListaScreen";
 import VeiculosNewScreen from "../screens/VeiculosNewScreen";
-import UsuariosScreen from "../screens/UsuariosListaScreen";
-// import TagScreen from "../screens/TagScreen";
 import TagNewScreen from "../screens/TagNewScreen";
 import PerfilScreen from "../screens/PerfilScreen";
 import UsuariosNewScreen from "../screens/UsuariosNewScreen";
@@ -19,6 +16,10 @@ import TagListaScreen from "../screens/TagListaScreen";
 import TagEditScreen from "../screens/TagEditScreen";
 import UsuariosListaScreen from "../screens/UsuariosListaScreen";
 import UsuariosEditScreen from "../screens/UsuariosEditScreen";
+import VeiculosDeleteScreen from "../screens/VeiculosDeleteScreen";
+import TagDeleteScreen from "../screens/TagDeleteScreen";
+import UsuariosDeleteScreen from "../screens/UsuariosDeleteScreen";
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -151,7 +152,15 @@ function UsuariosStack() {
         name="UsuariosEditScreen"
         component={UsuariosEditScreen}
         options={{
-          title: "Veículos",
+          title: "Usuários",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UsuariosDeleteScreen"
+        component={UsuariosDeleteScreen}
+        options={{
+          title: "Usuários",
           headerShown: false,
         }}
       />
@@ -186,6 +195,14 @@ function VeiculosStack() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="VeiculosDelete"
+        component={VeiculosDeleteScreen}
+        options={{
+          title: "Veículos",
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -212,6 +229,14 @@ function TagStack() {
       <Stack.Screen
         name="TagEditScreen"
         component={TagEditScreen}
+        options={{
+          title: "Tag",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TagDeleteScreen"
+        component={TagDeleteScreen}
         options={{
           title: "Tag",
           headerShown: false,
