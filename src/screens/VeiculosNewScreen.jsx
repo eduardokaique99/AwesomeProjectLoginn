@@ -34,6 +34,7 @@ export default function VeiculosNewScreen({ navigation }) {
       idCondominio: idCondominio,
       situacao: situacao,
     });
+    navigation.pop()
   };
 
   return (

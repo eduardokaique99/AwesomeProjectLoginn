@@ -6,20 +6,21 @@ import {
   FlatList,
 } from "react-native";
 import styles from "../config/styles";
-import { useNavigation, useFocusEffect  } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import { styles2 } from "../config/styles";
 
 const TagListaScreen = () => {
   const [tags, setTags] = useState([]);
   const navigation = useNavigation();
-  
+
   const handleButtonPress = (screenName) => {
     navigation.navigate(screenName);
   };
-
 
   const fetchData = async () => {
     const colRef = collection(db, "tags");
@@ -38,7 +39,6 @@ const TagListaScreen = () => {
     }, [])
   );
 
-
   //useEffect(() => {
   //  async function fetchData() {
   //    // Busca dados da coleção "tags"
@@ -56,11 +56,35 @@ const TagListaScreen = () => {
       <ScrollView>
         <View style={styles.innerContainer}>
           <Text style={[styles.h1, { fontSize: 24 }]}>TAG</Text>
-          <Text style={{ textAlign: 'justify', margin: 10 }}>
+          <Text style={{ textAlign: "justify", margin: 10 }}>
             Local destinado para o CRUD de TAG.
           </Text>
 
           <View style={styles.container}>
+            <TouchableOpacity
+              style={styles2}
+              onPress={() => handleButtonPress("TagNewScreen")}
+            >
+              <Icon
+                name="plus"
+                size={20}
+                color="#fff"
+                style={{ marginRight: 10 }}
+              />
+              <Text style={styles2.buttonText}>Nova Tag</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles2}
+              onPress={() => handleButtonPress("TagReportScreen")}
+            >
+              <Icon
+                name="bar-chart"
+                size={20}
+                color="#fff"
+                style={{ marginRight: 10 }}
+              />
+              <Text style={styles2.buttonText}>Relatório de Tags</Text>
+            </TouchableOpacity>
             <FlatList
               keyExtractor={(item) => item.id}
               data={tags}
@@ -82,7 +106,7 @@ const TagListaScreen = () => {
                     />
                   </Card.Content>
                   <Card.Actions>
-                  <Button
+                    <Button
                       onPress={() =>
                         navigation.navigate("TagEditScreen", { item })
                       }
@@ -100,18 +124,11 @@ const TagListaScreen = () => {
                 </Card>
               )}
             />
-            <TouchableOpacity 
-              style={styles.button} onPress={() => handleButtonPress("TagNewScreen")}>
-              <Text style={styles.buttonText}>Adicionar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => handleButtonPress("TagReportScreen")}>
-              <Text style={styles.buttonText}>Relatório</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </View>
   );
-}
+};
 
 export default TagListaScreen;

@@ -47,6 +47,7 @@ export default function UsuariosNewScreen({ navigation }) {
         console.log(userCredential, "Usuário registrado com sucesso");
         const usuarios = userCredential.user.email;
       });
+      navigation.pop()
   };
 
   return (
