@@ -4,6 +4,7 @@ import { useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function TagNewScreen({ navigation }) {
@@ -28,7 +29,8 @@ export default function TagNewScreen({ navigation }) {
 
     const cadastrarTag = async () => {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyIiwiZW1haWwiOiJqdXNzYW5AbWV1M2VtYWlsLmNvbSIsImp0aSI6ImY5OGVjZmEyLWYyYWYtNDUxOS04ODhmLWM3YjkyZDU5ZGRhYyIsImV4cCI6MTcxOTAxMDgzOSwiaXNzIjoiZXZvbHV0aW9udGVjaC5jb20uYnIiLCJhdWQiOiJodHRwOi8vZXZvbHV0aW9udGVjaC5jb20uYnIvY29uZHNlY3VyaXR5In0.hWilh8RKTYpDvJFlxTmZ9JjGsKDeivK1X83GuA5JRo4';//await AsyncStorage.getItem('token');
+        //const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyIiwiZW1haWwiOiJqdXNzYW5AbWV1M2VtYWlsLmNvbSIsImp0aSI6ImY5OGVjZmEyLWYyYWYtNDUxOS04ODhmLWM3YjkyZDU5ZGRhYyIsImV4cCI6MTcxOTAxMDgzOSwiaXNzIjoiZXZvbHV0aW9udGVjaC5jb20uYnIiLCJhdWQiOiJodHRwOi8vZXZvbHV0aW9udGVjaC5jb20uYnIvY29uZHNlY3VyaXR5In0.hWilh8RKTYpDvJFlxTmZ9JjGsKDeivK1X83GuA5JRo4';//await AsyncStorage.getItem('token');
+        const token = await AsyncStorage.getItem('token');
         const response = await fetch('https://apicondsecurity.azurewebsites.net/api/Rfid/Cadastrar', {
           method: 'POST',
           headers: {

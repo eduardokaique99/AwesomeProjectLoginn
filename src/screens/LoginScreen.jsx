@@ -38,16 +38,21 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
       const data = await response.json(); // converte a resposta para JSON
       console.log(data); // exibe os dados no console
       await AsyncStorage.setItem('token', data.token); // armazena o token de autenticação no AsyncStorage
+      const token = await AsyncStorage.getItem('token'); // pega o token de autenticação do AsyncStorage
       console.log('Usuário logado com sucesso!'); // exibe a mensagem de sucesso no console
       const UserId = data.userId; // pega o ID do usuário logado que retornou da API
-      const userResponse = await fetch(`https://apicondsecurity.azurewebsites.net/api/Usuario/Get?id=${UserId}`,
+      const userResponse = await fetch(`https://apicondsecurity.azurewebsites.net/api/Usuario/Get?IdUser=${UserId}`,
       { method: 'GET', 
         headers: { 
-          'Authorization': `Bearer ${data.token}`, // passa o token de autenticação no cabeçalho da requisição
+          'Authorization': `Bearer ${token}`, // passa o token de autenticação no cabeçalho da requisição
           'Content-type': 'application/json', // define o tipo do conteúdo como JSON
           mode: 'cors', // Adiciona o modo CORS
         },
+        //body: JSON.stringify({ id: UserId }), // converte o ID do usuário para JSON
     }); // faz a requisição para a API com o ID do usuário
+    
+    console.log(userResponse); // exibe a resposta no console
+
     if(!userResponse.ok){ // verifica se a resposta não está ok
       throw new Error('Erro ao buscar usuário'); // lança um erro
     }
@@ -56,6 +61,10 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
     const userName = userData.nome; // pega o nome do usuário logado
     await AsyncStorage.setItem('userType', userType); // armazena o tipo de usuário no AsyncStorage
     await AsyncStorage.setItem('userName', userName); // armazena o tipo de usuário no AsyncStorage
+    console.log(userData); // exibe os dados no console
+    console.log(userType); // exibe o tipo de usuário no console
+    console.log(userName); // exibe o nome do usuário no console
+
     if (userType === 1) { // verifica se o tipo de usuário é 1 Administrador
       navigation.navigate('HomeScreen'); // navega para a tela HomeScreenAdmin
     } else {
