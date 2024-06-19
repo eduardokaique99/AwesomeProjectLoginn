@@ -12,22 +12,41 @@ export default function TagNewScreen({ navigation }) {
   const [situacao, setNSituacao] = useState("");
   const [idCondominio, setIdCondominio] = useState("");
 
+    //const cadastrarTag = async () => {
+    //  console.log("Salvo");
+    //  // primeiro pegamos o objeto de coleção
+    //  const docRef = doc(collection(db, "tags"));
+    //  // e então setamos o documento
+    //  await setDoc(docRef, {
+    //    idTag: idTag,
+    //    numero: numero,
+    //    situacao: situacao,
+    //    idCondominio: idCondominio,
+    //  });
+    //  navigation.pop()
+    //};
+
     const cadastrarTag = async () => {
-      console.log("Salvo");
-      // Cria uma nova referência de documento com um ID gerado automaticamente
-      // primeiro pegamos o objeto de coleção
-      const docRef = doc(
-        // depois passamos a referência do banco de dados
-        collection(db, "tags")
-      );
-      // e então setamos o documento
-      await setDoc(docRef, {
-        idTag: idTag,
-        numero: numero,
-        situacao: situacao,
-        idCondominio: idCondominio,
-      });
-      navigation.pop()
+      try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyIiwiZW1haWwiOiJqdXNzYW5AbWV1M2VtYWlsLmNvbSIsImp0aSI6ImY5OGVjZmEyLWYyYWYtNDUxOS04ODhmLWM3YjkyZDU5ZGRhYyIsImV4cCI6MTcxOTAxMDgzOSwiaXNzIjoiZXZvbHV0aW9udGVjaC5jb20uYnIiLCJhdWQiOiJodHRwOi8vZXZvbHV0aW9udGVjaC5jb20uYnIvY29uZHNlY3VyaXR5In0.hWilh8RKTYpDvJFlxTmZ9JjGsKDeivK1X83GuA5JRo4';//await AsyncStorage.getItem('token');
+        const response = await fetch('https://apicondsecurity.azurewebsites.net/api/Rfid/Cadastrar', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ numero: numero, situacao: situacao, idCondominio: idCondominio }),
+          mode: 'cors',
+        });
+        if(!response.ok){
+          throw new Error('Erro ao cadastrar tag');
+        }
+        const data = await response.json();
+        console.log(data);
+        navigation.pop();
+      } catch (error) {
+        console.log('Erro ao cadastrar tag',error);
+      }
     };
 
   return (

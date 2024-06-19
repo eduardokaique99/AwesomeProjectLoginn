@@ -117,15 +117,6 @@ const TabsNavigator = () => (
         title: "Sobre",
       }}
     />
-    <Tab.Screen
-      name="Perfil"
-      component={PerfilScreen}
-      options={{
-        tabBarLabel: "Perfil",
-        tabBarIcon: "check",
-        title: "Perfil",
-      }}
-    />
   </Tab.Navigator>
 );
 

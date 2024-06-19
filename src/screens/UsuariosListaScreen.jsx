@@ -73,18 +73,6 @@ const UsuariosListaScreen = () => {
               />
               <Text style={styles2.buttonText}>Nova Usuário</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles2}
-              onPress={() => handleButtonPress("TagReportScreen")}
-            >
-              <Icon
-                name="bar-chart"
-                size={20}
-                color="#fff"
-                style={{ marginRight: 10 }}
-              />
-              <Text style={styles2.buttonText}>Relatório de Usuários</Text>
-            </TouchableOpacity>
             <FlatList
               keyExtractor={(item) => item.id}
               data={usuarios}
@@ -147,18 +135,6 @@ const UsuariosListaScreen = () => {
                 </Card>
               )}
             />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleButtonPress("UsuariosNewScreen")}
-            >
-              <Text style={styles.buttonText}>Cadastrar Usuário</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleButtonPress("UsuariosReportScreen")}
-            >
-              <Text style={styles.buttonText}>Relatório de Usuários</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

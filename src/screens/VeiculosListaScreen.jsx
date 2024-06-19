@@ -61,18 +61,6 @@ const VeiculosListaScreen = () => {
               />
               <Text style={styles2.buttonText}>Novo Veículo</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles2}
-              onPress={() => handleButtonPress("TagReportScreen")}
-            >
-              <Icon
-                name="bar-chart"
-                size={20}
-                color="#fff"
-                style={{ marginRight: 10 }}
-              />
-              <Text style={styles2.buttonText}>Relatório de Veículos</Text>
-            </TouchableOpacity>
             <FlatList
               keyExtractor={(item) => item.id}
               data={veiculos}
@@ -128,18 +116,6 @@ const VeiculosListaScreen = () => {
                 </Card>
               )}
             />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleButtonPress("VeiculosNewScreen")}
-            >
-              <Text style={styles.buttonText}>Adicionar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleButtonPress("VeiculosReportScreen")}
-            >
-              <Text style={styles.buttonText}>Relatório</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
