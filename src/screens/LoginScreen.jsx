@@ -58,7 +58,7 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
     }
     const userData = await userResponse.json(); // converte a resposta para JSON
     const userType = userData.idTipoUsuario; // converte a resposta para JSON
-    const userName = userData.nome; // pega o nome do usuário logado
+    const userName = userData.name; // pega o nome do usuário logado
     await AsyncStorage.setItem('userType', userType); // armazena o tipo de usuário no AsyncStorage
     await AsyncStorage.setItem('userName', userName); // armazena o tipo de usuário no AsyncStorage
     console.log(userData); // exibe os dados no console
@@ -106,13 +106,11 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
       }
     };
 
-    checkUserLoggedIn();
+    //checkUserLoggedIn();
   }, []);
-
+  
   return (
     <View style={styles.container}>
-      {loading && <Text>Carregando...</Text>}
-      {!loading && (
         <View style={styles.innerContainer}>
           <Image
             source={require("../../assets/LogoApp.png")}
@@ -163,7 +161,6 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
             Entrar
           </Button>
         </View>
-      )}
     </View>
   );
 }

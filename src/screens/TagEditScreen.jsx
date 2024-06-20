@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TagEditScreen({ navigation, route }) {
   const { item } = route.params;
@@ -12,7 +13,39 @@ export default function TagEditScreen({ navigation, route }) {
   const [situacao, setNSituacao] = useState("");
   const [idCondominio, setIdCondominio] = useState("");
 
-  const cadastrarTag = async () => {
+  const alterarTag = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      console.log('Token:', token);
+  
+      const response = await fetch('https://apicondsecurity.azurewebsites.net/api/Rfid/Alterar', {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idRfid: idTag , numero: numero, situacao: situacao, idCondominio: idCondominio }),
+        mode: 'cors',
+      });
+
+      console.log('Response Status:', response.status);
+      const responseText = await response.text();
+      console.log('Response Text:', responseText);
+  
+      if (!response.ok) {
+        throw new Error(`Erro ao alterar tag: ${responseText}`);
+      }
+
+      // Aqui tratamos a resposta como texto simples, já que não é um JSON
+      console.log('Tag alterada com sucesso:', responseText);
+      navigation.pop();
+    } catch (error) {
+      console.log('Erro ao alterar tag', error);
+    }
+  };
+
+  /*
+    const cadastrarTag = async () => {
     console.log("Salvo");
     // Cria uma nova referência de documento com um ID gerado automaticamente
     // primeiro pegamos o objeto de coleção
@@ -36,6 +69,8 @@ export default function TagEditScreen({ navigation, route }) {
     setTag(item.tag);
     setNome(item.nome);
   }, []);
+
+  */
 
   return (
     <View style={styles.container}>
@@ -85,7 +120,7 @@ export default function TagEditScreen({ navigation, route }) {
             maxWidth: 260,
             alignSelf: "flex-end",
           }}
-          onPress={cadastrarTag}
+          onPress={alterarTag}
         >
           Salvar
         </Button>

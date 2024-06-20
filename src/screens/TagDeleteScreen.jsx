@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Modal, Portal, Provider, Button, Text } from "react-native-paper";
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TagDeleteScreen = ({ route, navigation }) => {
   const { item } = route.params;
@@ -13,11 +13,16 @@ const TagDeleteScreen = ({ route, navigation }) => {
 
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "tags", item.id));
+      const token = await AsyncStorage.getItem('token');
+      await axios.delete(`https://apicondsecurity.azurewebsites.net/api/Rfid/Excluir?IdRfid=${item.idRfid}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       console.log("Tag deletada!");
       navigation.goBack();
     } catch (e) {
-      console.error(e);
+      console.error('Erro ao deletar tag', e);
     }
   };
 
@@ -25,7 +30,7 @@ const TagDeleteScreen = ({ route, navigation }) => {
     <Provider>
       <View style={styles.container}>
         <Text style={styles.title}>Confirmar exclusão do Tag:</Text>
-        <Text style={styles.detail}>Id da Tag: {item.idTag}</Text>
+        <Text style={styles.detail}>Id da Tag: {item.idRfid}</Text>
         <Text style={styles.detail}>Número: {item.numero}</Text>
         <Button
           mode="contained"

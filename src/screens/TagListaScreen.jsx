@@ -1,18 +1,18 @@
+import React, { useState, useCallback } from 'react';
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
   FlatList,
-} from "react-native";
-import styles from "../config/styles";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { useCallback, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../config/firebase";
-import { List, Button, Card } from "react-native-paper";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import { styles2 } from "../config/styles";
+} from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import styles from '../config/styles';
+import { List, Button, Card } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios';
+import { styles2 } from '../config/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TagListaScreen = () => {
   const [tags, setTags] = useState([]);
@@ -23,14 +23,18 @@ const TagListaScreen = () => {
   };
 
   const fetchData = async () => {
-    const colRef = collection(db, "tags");
-    const docSnap = await getDocs(colRef);
-    const tagData = docSnap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setTags(tagData);
-    console.log(tagData);
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await axios.get('https://apicondsecurity.azurewebsites.net/api/Rfid/GetAll', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setTags(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar tags', error);
+    }
   };
 
   useFocusEffect(
@@ -39,31 +43,19 @@ const TagListaScreen = () => {
     }, [])
   );
 
-  //useEffect(() => {
-  //  async function fetchData() {
-  //    // Busca dados da coleção "tags"
-  //    const colRef = collection(db, "tags");
-  //    const docSnap = await getDocs(colRef);
-  //    const tagsData = docSnap.docs.map((doc) => doc.data());
-  //    setTags(tagsData);
-  //    console.log(tagsData);
-  //  }
-  //  fetchData();
-  //}, []);
-
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.innerContainer}>
           <Text style={[styles.h1, { fontSize: 24 }]}>TAG</Text>
-          <Text style={{ textAlign: "justify", margin: 10 }}>
+          <Text style={{ textAlign: 'justify', margin: 10 }}>
             Local destinado para o CRUD de TAG.
           </Text>
 
           <View style={styles.container}>
             <TouchableOpacity
-              style={styles2}
-              onPress={() => handleButtonPress("TagNewScreen")}
+              style={styles2.button}
+              onPress={() => handleButtonPress('TagNewScreen')}
             >
               <Icon
                 name="plus"
@@ -78,7 +70,7 @@ const TagListaScreen = () => {
               data={tags}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
-                  <Card.Title title={`Id do TAG: ${item.idTag}`} />
+                  <Card.Title title={`Id do TAG: ${item.idRfid}`} />
                   <Card.Content>
                     <List.Item
                       title={`Número: ${item.numero}`}
@@ -96,14 +88,14 @@ const TagListaScreen = () => {
                   <Card.Actions>
                     <Button
                       onPress={() =>
-                        navigation.navigate("TagEditScreen", { item })
+                        navigation.navigate('TagEditScreen', { item })
                       }
                     >
                       Editar
                     </Button>
                     <Button
                       onPress={() =>
-                        navigation.navigate("TagDeleteScreen", { item })
+                        navigation.navigate('TagDeleteScreen', { item })
                       }
                     >
                       Deletar
