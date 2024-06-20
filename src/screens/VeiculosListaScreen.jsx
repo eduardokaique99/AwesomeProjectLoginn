@@ -13,6 +13,8 @@ import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { styles2 } from "../config/styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const VeiculosListaScreen = () => {
   const [veiculos, setVeiculos] = useState([]);
@@ -23,14 +25,18 @@ const VeiculosListaScreen = () => {
   };
 
   const fetchData = async () => {
-    const colRef = collection(db, "veiculos");
-    const docSnap = await getDocs(colRef);
-    const veiculosData = docSnap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setVeiculos(veiculosData);
-    console.log(veiculosData);
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.get('https://apicondsecurity.azurewebsites.net/api/Veiculo/GetAll', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setVeiculos(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar veículos', error);
+    }
   };
 
   useFocusEffect(
@@ -45,13 +51,13 @@ const VeiculosListaScreen = () => {
         <View style={styles.innerContainer}>
           <Text style={[styles.h1, { fontSize: 24 }]}>Veículos</Text>
           <Text style={{ textAlign: "justify", margin: 10 }}>
-            Local destinado para o CRUD de veículos.
+            Veículos cadastrados no sistema.
           </Text>
 
           <View style={styles.container}>
             <TouchableOpacity
               style={styles2}
-              onPress={() => handleButtonPress("TagNewScreen")}
+              onPress={() => handleButtonPress("VeiculosNewScreen")}
             >
               <Icon
                 name="plus"
@@ -89,12 +95,16 @@ const VeiculosListaScreen = () => {
                       left={(props) => <List.Icon {...props} icon="palette" />}
                     />
                     <List.Item
-                      title={`Condomínio: ${item.idCondominio}`}
+                      title={`Usuário: ${item.idUser}`}
                       left={(props) => <List.Icon {...props} icon="home" />}
                     />
                     <List.Item
                       title={`Situação: ${item.situacao}`}
                       left={(props) => <List.Icon {...props} icon="check" />}
+                    />
+                    <List.Item
+                      title={`Rfid: ${item.idTag}`}
+                      left={(props) => <List.Icon {...props} icon="tag" />}
                     />
                   </Card.Content>
                   <Card.Actions>

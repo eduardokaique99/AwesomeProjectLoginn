@@ -4,18 +4,64 @@ import { useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function VeiculosNewScreen({ navigation }) {
-  const [idVeiculo, setIdVeiculo] = useState("");
+  
   const [placa, setPlaca] = useState("");
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   const [ano, setAno] = useState("");
   const [cor, setCor] = useState("");
-  const [idCondominio, setIdCondominio] = useState("");
+  const [idUser, setIdUser] = useState("");
   const [situacao, setSituacao] = useState("");
-  
+  const [idTag, setIdTag] = useState("");
+
   const cadastrarVeiculo = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      console.log("Token:", token);
+
+      const response = await fetch(
+        "https://apicondsecurity.azurewebsites.net/api/LayoutUnificado/CadastroUnificadoVeiculo",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            placa: placa,
+            marca: marca,
+            modelo: modelo,
+            cor: cor,
+            ano: ano,
+            situacao: situacao,
+            idUsuario: idUser,
+            idRfid: idTag,
+          }),
+          mode: "cors",
+        }
+      );
+
+      console.log("Response Status:", response.status);
+      const responseText = await response.text();
+      console.log("Response Text:", responseText);
+
+      if (!response.ok) {
+        throw new Error(`Erro ao cadastrar veículo: ${responseText}`);
+      }
+
+      console.log("Veículo cadastrado com sucesso:", responseText);
+      navigation.pop();
+
+    } catch (error) {
+      console.log('Erro ao cadastrar veículo', error);
+    }
+  };
+
+  /*
+    const cadastrarVeiculo = async () => {
     console.log("Salvo");
     // Cria uma nova referência de documento com um ID gerado automaticamente
     // primeiro pegamos o objeto de coleção
@@ -36,6 +82,7 @@ export default function VeiculosNewScreen({ navigation }) {
     });
     navigation.pop()
   };
+  */
 
   return (
     <View style={styles.container}>
@@ -47,13 +94,6 @@ export default function VeiculosNewScreen({ navigation }) {
           Insira as informações
         </Text>
 
-        <TextInput
-          label="ID"
-          mode="outlined"
-          keyboardType="id"
-          value={idVeiculo}
-          onChangeText={setIdVeiculo}
-        />
         <TextInput
           label="Placa"
           mode="outlined"
@@ -90,11 +130,11 @@ export default function VeiculosNewScreen({ navigation }) {
           onChangeText={setCor}
         />
         <TextInput
-          label="ID Condomínio"
+          label="ID Usuário"
           mode="outlined"
           keyboardType="tag"
-          value={idCondominio}
-          onChangeText={setIdCondominio}
+          value={idUser}
+          onChangeText={setIdUser}
         />
         <TextInput
           label="Situação"
@@ -102,6 +142,13 @@ export default function VeiculosNewScreen({ navigation }) {
           keyboardType="tag"
           value={situacao}
           onChangeText={setSituacao}
+        />
+        <TextInput
+          label="ID TAG"
+          mode="outlined"
+          keyboardType="tag"
+          value={idTag}
+          onChangeText={setIdTag}
         />
         <Button
           textColor="black"

@@ -49,7 +49,7 @@ const TagListaScreen = () => {
         <View style={styles.innerContainer}>
           <Text style={[styles.h1, { fontSize: 24 }]}>TAG</Text>
           <Text style={{ textAlign: 'justify', margin: 10 }}>
-            Local destinado para o CRUD de TAG.
+            Tags cadastradas no sistema.
           </Text>
 
           <View style={styles.container}>

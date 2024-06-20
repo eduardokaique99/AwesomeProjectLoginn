@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Modal, Portal, Provider, Button, Text } from "react-native-paper";
-import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const UsuariosDeleteScreen = ({ route, navigation }) => {
+const TagDeleteScreen = ({ route, navigation }) => {
   const { item } = route.params;
   const [visible, setVisible] = useState(false);
 
@@ -16,37 +14,24 @@ const UsuariosDeleteScreen = ({ route, navigation }) => {
   const handleDelete = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      await axios.delete(`https://apicondsecurity.azurewebsites.net/api/Usuario/Excluir?idUsuario=${item.idUsuario}`, {
+      await axios.delete(`https://apicondsecurity.azurewebsites.net/api/Registros/Excluir?IdRegistro=${item.idRegistro}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      console.log("Usuário deletado!");
+      console.log("Tag deletada!");
       navigation.goBack();
     } catch (e) {
-      console.error('Erro ao deletar usuário', e);
-    }
-  }
-  
-/*
-  const handleDelete = async () => {
-    try {
-      await deleteDoc(doc(db, "usuarios", item.id));
-      console.log("Usuário deletado!");
-      navigation.goBack();
-    } catch (e) {
-      console.error(e);
+      console.error('Erro ao deletar tag', e);
     }
   };
 
-*/
- 
   return (
     <Provider>
       <View style={styles.container}>
-        <Text style={styles.title}>Confirmar exclusão do usuário:</Text>
-        <Text style={styles.detail}>Nome: {item.nome}</Text>
-        <Text style={styles.detail}>E-mail: {item.email}</Text>
+        <Text style={styles.title}>Confirmar exclusão do Tag:</Text>
+        <Text style={styles.detail}>Id da Tag: {item.idRfid}</Text>
+        <Text style={styles.detail}>Número: {item.numero}</Text>
         <Button
           mode="contained"
           onPress={showModal}
@@ -137,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UsuariosDeleteScreen;
+export default TagDeleteScreen;

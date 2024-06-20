@@ -13,15 +13,35 @@ import { db } from "../config/firebase";
 import { List, Button, Card } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { styles2 } from "../config/styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const UsuariosListaScreen = () => {
   const [usuarios, setUsers] = useState([]);
   const navigation = useNavigation();
-
+ 
   const handleButtonPress = (screenName) => {
     navigation.navigate(screenName);
   };
 
+  const fetchData = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.get(
+        "https://apicondsecurity.azurewebsites.net/api/Usuario/GetAll",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUsers(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar usuários", error);
+    }
+  };
+  /*
   const fetchData = async () => {
     const colRef = collection(db, "usuarios");
     const docSnap = await getDocs(colRef);
@@ -33,6 +53,7 @@ const UsuariosListaScreen = () => {
     console.log(usuariosData);
   };
 
+  */
   useFocusEffect(
     useCallback(() => {
       fetchData();
@@ -57,7 +78,7 @@ const UsuariosListaScreen = () => {
         <View style={styles.innerContainer}>
           <Text style={[styles.h1, { fontSize: 24 }]}>Usuários</Text>
           <Text style={{ textAlign: "justify", margin: 10 }}>
-            Local destinado para o CRUD de usuários.
+            Usuários cadastrados no sistema.
           </Text>
 
           <View style={styles.container}>
@@ -80,31 +101,17 @@ const UsuariosListaScreen = () => {
                 <Card style={{ margin: 8 }}>
                   <Card.Title title={`Id do usuário: ${item.idUsuario}`} />
                   <Card.Content>
+                  <List.Item
+                      title={`Nome: ${item.nome}`}
+                      left={(props) => <List.Icon {...props} icon="account" />}
+                    />
                     <List.Item
                       title={`Email: ${item.email}`}
                       left={(props) => <List.Icon {...props} icon="email" />}
                     />
                     <List.Item
-                      title={`Nome: ${item.nome}`}
-                      left={(props) => <List.Icon {...props} icon="account" />}
-                    />
-                    <List.Item
-                      title={`CPF: ${item.cpf}`}
-                      left={(props) => (
-                        <List.Icon {...props} icon="card-account-details" />
-                      )}
-                    />
-                    <List.Item
                       title={`Telefone: ${item.telefone}`}
                       left={(props) => <List.Icon {...props} icon="phone" />}
-                    />
-                    <List.Item
-                      title={`Id da Residência: ${item.idResidencia}`}
-                      left={(props) => <List.Icon {...props} icon="home" />}
-                    />
-                    <List.Item
-                      title={`Id do Condomínio: ${item.idCondominio}`}
-                      left={(props) => <List.Icon {...props} icon="home" />}
                     />
                     <List.Item
                       title={`Tipo de usuário: ${item.idTipo}`}

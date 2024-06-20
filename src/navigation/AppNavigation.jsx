@@ -19,6 +19,8 @@ import UsuariosEditScreen from "../screens/UsuariosEditScreen";
 import VeiculosDeleteScreen from "../screens/VeiculosDeleteScreen";
 import TagDeleteScreen from "../screens/TagDeleteScreen";
 import UsuariosDeleteScreen from "../screens/UsuariosDeleteScreen";
+import RegistroListaScreen from "../screens/RegistroListaScreen";
+import RegistroDeleteScreen from "../screens/RegistroDeleteScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -115,6 +117,15 @@ const TabsNavigator = () => (
         tabBarLabel: "Sobre",
         tabBarIcon: "check",
         title: "Sobre",
+      }}
+    />
+    <Tab.Screen
+      name="Registros"
+      component={RegistroListaScreen}
+      options={{
+        tabBarLabel: "Registros",
+        tabBarIcon: "comment",
+        title: "Registros",
       }}
     />
   </Tab.Navigator>
@@ -230,6 +241,29 @@ function TagStack() {
         component={TagDeleteScreen}
         options={{
           title: "Tag",
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function RegistroStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="RegistroScreen"
+        component={RegistroListaScreen}
+        options={{
+          title: "Registro",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="RegistroDeleteScreen"
+        component={RegistroDeleteScreen}
+        options={{
+          title: "Registro",
           headerShown: false,
         }}
       />

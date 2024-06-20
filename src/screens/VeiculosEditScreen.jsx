@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function VeiculosEditScreen({ navigation, route }) {
   const { item } = route.params; // Correctly get the item from route params
@@ -13,8 +14,40 @@ export default function VeiculosEditScreen({ navigation, route }) {
   const [modelo, setModelo] = useState("");
   const [ano, setAno] = useState("");
   const [cor, setCor] = useState("");
-  const [idCondominio, setIdCondominio] = useState("");
+  const [idUser, setidUser] = useState("");
   const [situacao, setSituacao] = useState("");
+
+  const alterarVeiculo = async () => { 
+    try {
+      const token = await AsyncStorage.getItem("token");
+      console.log("Token:", token);
+
+      const response = await fetch('https://apicondsecurity.azurewebsites.net/api/Veiculo/Alterar', {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idVeiculo: idVeiculo, placa: placa, marca: marca, modelo: modelo, ano: ano, cor: cor, idUsuario: idUser, situacao: situacao }),
+        mode: 'cors',
+      });
+
+      console.log('Response Status:', response.status);
+      const responseText = await response.text();
+      console.log('Response Text:', responseText);
+
+      if (!response.ok) {
+        throw new Error(`Erro ao alterar veículo: ${responseText}`);
+      }
+
+      console.log('Veículo alterado com sucesso:', responseText);
+      navigation.pop();
+    } catch (error) {
+      console.log('Erro ao alterar veículo', error);
+    }
+  };
+
+  /*
 
   const cadastrarVeiculo = async () => {
     console.log("Salvo");
@@ -31,7 +64,7 @@ export default function VeiculosEditScreen({ navigation, route }) {
       modelo: modelo,
       ano: ano,
       cor: cor,
-      idCondominio: idCondominio,
+      idUsuario: idUser,
       situacao: situacao,
     });
     navigation.goBack(); // Go back to the previous screen after saving
@@ -48,10 +81,11 @@ export default function VeiculosEditScreen({ navigation, route }) {
       setModelo(item.modelo);
       setAno(item.ano);
       setCor(item.cor);
-      setIdCondominio(item.idCondominio);
+      setidUser(item.idUser);
       setSituacao(item.situacao);
     }
   }, [item]);
+*/
 
   return (
     <View style={styles.container}>
@@ -106,11 +140,11 @@ export default function VeiculosEditScreen({ navigation, route }) {
           onChangeText={setCor}
         />
         <TextInput
-          label="ID Condomínio"
+          label="ID Usuário"
           mode="outlined"
           keyboardType="default"
-          value={idCondominio}
-          onChangeText={setIdCondominio}
+          value={idUser}
+          onChangeText={setidUser}
         />
         <TextInput
           label="Situação"

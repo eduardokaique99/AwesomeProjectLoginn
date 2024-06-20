@@ -3,6 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { Modal, Portal, Provider, Button, Text } from "react-native-paper";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const VeiculosDeleteScreen = ({ route, navigation }) => {
   const { item } = route.params;
@@ -13,6 +15,24 @@ const VeiculosDeleteScreen = ({ route, navigation }) => {
 
   const handleDelete = async () => {
     try {
+      const token = await AsyncStorage.getItem("token");
+      await axios.delete(
+        `https://apicondsecurity.azurewebsites.net/api/Veiculo/Excluir?idVeiculo=${item.idVeiculo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Veículo deletado!");
+      navigation.goBack();
+    } catch (e) {
+      console.error("Erro ao deletar veículo", e);
+    }
+  };
+  /*
+  const handleDelete = async () => {
+    try {
       await deleteDoc(doc(db, "veiculos", item.id));
       console.log("Vehicle deleted!");
       navigation.goBack();
@@ -20,6 +40,8 @@ const VeiculosDeleteScreen = ({ route, navigation }) => {
       console.error(e);
     }
   };
+
+  */
 
   return (
     <Provider>

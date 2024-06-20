@@ -5,20 +5,74 @@ import { useState } from "react";
 import styles from "../config/styles";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function UsuariosNewScreen({ navigation }) {
-  const [idUsuario, setIdUsuario] = useState("");
-  const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [cpf, setCPF] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [situacao, setSituacao] = useState("");
+  const [numero, setnumero] = useState("");
+  const [bloco, setbloco] = useState("");
+  const [quadra, setQuadra] = useState("");
+  const [rua, setRua] = useState("");
+  const [tipo, setTipo] = useState("");
+  const [idTipo, setIdTipo] = useState("");
   const [idResidencia, setIdResidencia] = useState("");
   const [idCondominio, setIdCondominio] = useState("");
-  const [idTipo, setIdTipo] = useState("");
-  const [situacao, setSituacao] = useState("");
   //https://github.com/faustort/ADS-5f-MeuApp/blob/74dc424f21578b68fedc8157f36108123aa60cb8/src/screens/RegisterScreen.jsx
 
+  const cadastrarUsuario = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      console.log("Token:", token);
+
+      const response = await fetch(
+        "https://apicondsecurity.azurewebsites.net/api/LayoutUnificado/CadastroUnificadoDeUsuario",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: nome,
+            email: email,
+            senha: senha,
+            cpf: cpf,
+            telefone: telefone,
+            situacao: situacao,
+            numero: numero,
+            bloco: bloco,
+            quadra: quadra,
+            rua: rua,
+            idTipo: idTipo,
+            idResidencia: idResidencia,
+            idCondominio: idCondominio,
+          }),
+          mode: "cors",
+        }
+      );
+
+      console.log("Response Status:", response.status);
+      const responseText = await response.text();
+      console.log("Response Text:", responseText);
+
+      if (!response.ok) {
+        throw new Error(`Erro ao cadastrar usuário: ${responseText}`);
+      }
+
+      // Aqui tratamos a resposta como texto simples, já que não é um JSON
+      console.log("Usuário cadastrado com sucesso:", responseText);
+      navigation.pop();
+    } catch (error) {
+      console.log("Erro ao cadastrar usuário", error);
+    }
+  };
+
+    /*
   const cadastrarUsuario = async () => {
     console.log("Salvo");
     // Cria uma nova referência de documento com um ID gerado automaticamente
@@ -36,36 +90,39 @@ export default function UsuariosNewScreen({ navigation }) {
       senha: senha,
       cpf: cpf,
       telefone: telefone,
-      idResidencia: idResidencia,
-      idCondominio: idCondominio,
+      numero: numero,
+      bloco: bloco,
       idTipo: idTipo,
       situacao: situacao,
     });
 
+    
     createUserWithEmailAndPassword(auth, email, senha).then(
       async (userCredential) => {
         console.log(userCredential, "Usuário registrado com sucesso");
         const usuarios = userCredential.user.email;
-      });
-      navigation.pop()
-  };
-
+        }
+        );
+        navigation.pop();
+        };
+        
+        */
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Text variant="headlineLarge" style={styles.selfCenter}>
-          Cadastro de Veículo
+          Cadastro de Usuário
         </Text>
         <Text variant="bodySmall" style={styles.selfCenter}>
           Insira as informações
         </Text>
 
         <TextInput
-          label="ID"
+          label="Nome"
           mode="outlined"
-          keyboardType="id"
-          value={idUsuario}
-          onChangeText={setIdUsuario}
+          keyboardType="tag"
+          value={nome}
+          onChangeText={setNome}
         />
         <TextInput
           label="Email"
@@ -73,13 +130,6 @@ export default function UsuariosNewScreen({ navigation }) {
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
-        />
-        <TextInput
-          label="Nome"
-          mode="outlined"
-          keyboardType="tag"
-          value={nome}
-          onChangeText={setNome}
         />
         <TextInput
           label="Senha"
@@ -103,6 +153,48 @@ export default function UsuariosNewScreen({ navigation }) {
           onChangeText={setTelefone}
         />
         <TextInput
+          label="Situação"
+          mode="outlined"
+          keyboardType="tag"
+          value={situacao}
+          onChangeText={setSituacao}
+        />
+        <TextInput
+          label="Número da Residência"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={numero}
+          onChangeText={setnumero}
+        />
+        <TextInput
+          label="Bloco"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={bloco}
+          onChangeText={setbloco}
+        />
+        <TextInput
+          label="Quadra"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={quadra}
+          onChangeText={setQuadra}
+        />
+        <TextInput
+          label="Rua"
+          mode="outlined"
+          keyboardType="number-pad"
+          value={rua}
+          onChangeText={setRua}
+        />
+        <TextInput
+          label="ID Tipo"
+          mode="outlined"
+          keyboardType="id"
+          value={idTipo}
+          onChangeText={setIdTipo}
+        />
+        <TextInput
           label="ID Residência"
           mode="outlined"
           keyboardType="id"
@@ -116,20 +208,7 @@ export default function UsuariosNewScreen({ navigation }) {
           value={idCondominio}
           onChangeText={setIdCondominio}
         />
-        <TextInput
-          label="ID Tipo"
-          mode="outlined"
-          keyboardType="id"
-          value={idTipo}
-          onChangeText={setIdTipo}
-        />
-        <TextInput
-          label="Situação"
-          mode="outlined"
-          keyboardType="tag"
-          value={situacao}
-          onChangeText={setSituacao}
-        />
+
         <Button
           textColor="black"
           mode="outlined"
