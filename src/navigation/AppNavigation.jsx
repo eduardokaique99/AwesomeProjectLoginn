@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RecuperarSenhaScreen from "../screens/RecuperarSenhaScreen";
@@ -22,48 +21,45 @@ import UsuariosDeleteScreen from "../screens/UsuariosDeleteScreen";
 import RegistroListaScreen from "../screens/RegistroListaScreen";
 import RegistroDeleteScreen from "../screens/RegistroDeleteScreen";
 
-
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 export default function AppNavigation() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{
-            title: "Login",
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="RegistroScreen"
-          component={RegistroScreen}
-          options={{
-            title: "Registrar-se",
-            // headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="RecuperarSenhaScreen"
-          component={RecuperarSenhaScreen}
-          options={{
-            title: "Recuperar senha",
-            // headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="HomeScreen"
-          component={TabsNavigator}
-          options={{
-            title: "Logout",
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{
+          title: "Login",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="RegistroScreen"
+        component={RegistroScreen}
+        options={{
+          title: "Registrar-se",
+          // headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="RecuperarSenhaScreen"
+        component={RecuperarSenhaScreen}
+        options={{
+          title: "Recuperar senha",
+          // headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="HomeScreen"
+        component={TabsNavigator}
+        options={{
+          title: "Logout",
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
@@ -87,11 +83,6 @@ const TabsNavigator = () => (
         title: "Veículos",
       }}
     />
-    {/* <Tab.Screen name="Usuarios" component={UsuariosScreen} options={{
-                        tabBarLabel: "Usuários",
-                        tabBarIcon: "account",
-                        title: "Usuários",
-                    }}/> */}
     <Tab.Screen
       name="Usuarios"
       component={UsuariosStack}

@@ -68,7 +68,7 @@ const VeiculosListaScreen = () => {
               <Text style={styles2.buttonText}>Novo Veículo</Text>
             </TouchableOpacity>
             <FlatList
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.idVeiculo.toString()}
               data={veiculos}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>

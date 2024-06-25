@@ -1,18 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
   FlatList,
-} from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import styles from '../config/styles';
-import { List, Button, Card } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import axios from 'axios';
-import { styles2 } from '../config/styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react-native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import styles from "../config/styles";
+import { List, Button, Card } from "react-native-paper";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import axios from "axios";
+import { styles2 } from "../config/styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TagListaScreen = () => {
   const [tags, setTags] = useState([]);
@@ -24,16 +24,19 @@ const TagListaScreen = () => {
 
   const fetchData = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await axios.get('https://apicondsecurity.azurewebsites.net/api/Rfid/GetAll', {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios.get(
+        "https://apicondsecurity.azurewebsites.net/api/Rfid/GetAll",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
       setTags(response.data);
       console.log(response.data);
     } catch (error) {
-      console.error('Erro ao buscar tags', error);
+      console.error("Erro ao buscar tags", error);
     }
   };
 
@@ -48,14 +51,14 @@ const TagListaScreen = () => {
       <ScrollView>
         <View style={styles.innerContainer}>
           <Text style={[styles.h1, { fontSize: 24 }]}>TAG</Text>
-          <Text style={{ textAlign: 'justify', margin: 10 }}>
+          <Text style={{ textAlign: "justify", margin: 10 }}>
             Tags cadastradas no sistema.
           </Text>
 
           <View style={styles.container}>
             <TouchableOpacity
               style={styles2.button}
-              onPress={() => handleButtonPress('TagNewScreen')}
+              onPress={() => handleButtonPress("TagNewScreen")}
             >
               <Icon
                 name="plus"
@@ -66,7 +69,7 @@ const TagListaScreen = () => {
               <Text style={styles2.buttonText}>Nova Tag</Text>
             </TouchableOpacity>
             <FlatList
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.idRfid?.toString() ?? item.numero}
               data={tags}
               renderItem={({ item }) => (
                 <Card style={{ margin: 8 }}>
@@ -88,14 +91,14 @@ const TagListaScreen = () => {
                   <Card.Actions>
                     <Button
                       onPress={() =>
-                        navigation.navigate('TagEditScreen', { item })
+                        navigation.navigate("TagEditScreen", { item })
                       }
                     >
                       Editar
                     </Button>
                     <Button
                       onPress={() =>
-                        navigation.navigate('TagDeleteScreen', { item })
+                        navigation.navigate("TagDeleteScreen", { item })
                       }
                     >
                       Deletar

@@ -19,7 +19,7 @@ import axios from "axios";
 const UsuariosListaScreen = () => {
   const [usuarios, setUsers] = useState([]);
   const navigation = useNavigation();
- 
+
   const handleButtonPress = (screenName) => {
     navigation.navigate(screenName);
   };
@@ -92,16 +92,16 @@ const UsuariosListaScreen = () => {
                 color="#fff"
                 style={{ marginRight: 10 }}
               />
-              <Text style={styles2.buttonText}>Nova Usuário</Text>
+              <Text style={styles2.buttonText}>Novo Usuário</Text>
             </TouchableOpacity>
             <FlatList
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.idUsuario?.toString() ?? item.email}
               data={usuarios}
               renderItem={({ item }) => (
-                <Card style={{ margin: 8 }}>
+                <Card style={{ margin: 8 }} key={item.idUsuario?.toString() ?? item.email}>
                   <Card.Title title={`Id do usuário: ${item.idUsuario}`} />
                   <Card.Content>
-                  <List.Item
+                    <List.Item
                       title={`Nome: ${item.nome}`}
                       left={(props) => <List.Icon {...props} icon="account" />}
                     />
