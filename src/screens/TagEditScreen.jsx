@@ -76,7 +76,7 @@ export default function TagEditScreen({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Text variant="headlineLarge" style={styles.selfCenter}>
-          Cadastro de Tag
+          Edição de Tag
         </Text>
         <Text variant="bodySmall" style={styles.selfCenter}>
           Insira as informações

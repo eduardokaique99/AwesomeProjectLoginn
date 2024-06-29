@@ -67,6 +67,18 @@ const VeiculosListaScreen = () => {
               />
               <Text style={styles2.buttonText}>Novo Veículo</Text>
             </TouchableOpacity>
+             <TouchableOpacity
+              style={styles2}
+              onPress={() => handleButtonPress("VeiculosTerceiroNewScreen")}
+            >
+              <Icon
+                name="plus"
+                size={20}
+                color="#fff"
+                style={{ marginRight: 10 }}
+              />
+              <Text style={styles2.buttonText}>Novo Veículo Terceiro</Text>
+            </TouchableOpacity>
             <FlatList
               keyExtractor={(item) => item.idVeiculo.toString()}
               data={veiculos}

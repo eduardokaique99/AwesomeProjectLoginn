@@ -84,7 +84,7 @@ const UsuariosListaScreen = () => {
           <View style={styles.container}>
             <TouchableOpacity
               style={styles2}
-              onPress={() => handleButtonPress("TagNewScreen")}
+              onPress={() => handleButtonPress("UsuariosNewScreen")}
             >
               <Icon
                 name="plus"

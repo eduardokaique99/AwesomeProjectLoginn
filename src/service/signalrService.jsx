@@ -6,7 +6,7 @@ const SignalRService = {
 
   async start() {
     this.connection = new HubConnectionBuilder()
-      .withUrl('https://apicondsecurity.azurewebsites.net-signalr')
+      .withUrl('https://condsecuritysignalr.service.signalr.net/signalr/notificationHub')
       .configureLogging(LogLevel.Information)
       .build();
 
@@ -20,14 +20,18 @@ const SignalRService = {
       await this.connection.start();
       console.log('SignalR Connected');
     } catch (err) {
-      console.log('Error while establishing connection', err);
+      console.error('Error while establishing connection', err);
     }
   },
 
   async stop() {
     if (this.connection) {
-      await this.connection.stop();
-      console.log('SignalR Disconnected');
+      try {
+        await this.connection.stop();
+        console.log('SignalR Disconnected');
+      } catch (err) {
+        console.error('Error while stopping connection', err);
+      }
     }
   }
 };

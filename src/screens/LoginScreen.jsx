@@ -36,6 +36,14 @@ export default function LoginScreen({ navigation }) { // passa a navegação com
         throw new Error('Erro ao fazer login'); // lança um erro
       }
       const data = await response.json(); // converte a resposta para JSON
+      await AsyncStorage.setItem('termoAceite', data.termoAceite); // armazena o termo de aceite no AsyncStorage
+      await AsyncStorage.setItem('condominioName', data.condominioName); // armazena o nome do condomínio no AsyncStorage
+      await AsyncStorage.setItem('name', data.name); // armazena o ID do condomínio no AsyncStorage
+      await AsyncStorage.setItem('cpf', data.cpf); // armazena o CPF no AsyncStorage
+      const termoAceite = await AsyncStorage.getItem('termoAceite'); // pega o termo de aceite do AsyncStorage
+      if (termoAceite === false) { // verifica se o termo de aceite é falso
+        navigation.navigate('TermoAceiteScreen'); // navega para a tela TermoAceiteScreen
+      }
       console.log(data); // exibe os dados no console
       await AsyncStorage.setItem('token', data.token); // armazena o token de autenticação no AsyncStorage
       const token = await AsyncStorage.getItem('token'); // pega o token de autenticação do AsyncStorage

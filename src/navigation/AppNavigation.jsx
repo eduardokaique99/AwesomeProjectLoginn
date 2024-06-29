@@ -20,6 +20,8 @@ import TagDeleteScreen from "../screens/TagDeleteScreen";
 import UsuariosDeleteScreen from "../screens/UsuariosDeleteScreen";
 import RegistroListaScreen from "../screens/RegistroListaScreen";
 import RegistroDeleteScreen from "../screens/RegistroDeleteScreen";
+import TermoAceiteScreen from "../screens/TermoAceiteScreen";
+import VeiculosTerceiroNewScreen from "../screens/VeiculosTerceiroNewScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -54,6 +56,14 @@ export default function AppNavigation() {
       <Stack.Screen
         name="HomeScreen"
         component={TabsNavigator}
+        options={{
+          title: "Logout",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="TermoAceiteScreen"
+        component={TermoAceiteScreen}
         options={{
           title: "Logout",
           headerShown: false,
@@ -175,6 +185,14 @@ function VeiculosStack() {
       <Stack.Screen
         name="VeiculosNewScreen"
         component={VeiculosNewScreen}
+        options={{
+          title: "Veículos",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="VeiculosTerceiroNewScreen"
+        component={VeiculosTerceiroNewScreen}
         options={{
           title: "Veículos",
           headerShown: false,
